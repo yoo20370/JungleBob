@@ -1,6 +1,11 @@
 import requests
 from bs4 import BeautifulSoup
 
+from pymongo import MongoClient 
+client = MongoClient('localhost',27017)
+db = client.jungleBob
+dreamtower = db["menus"]
+
 url = "https://dorm.kyonggi.ac.kr:446/Khostel/mall_main.php?viewform=B0001_foodboard_list&board_no=1"
 
 response = requests.get(url)
@@ -20,21 +25,27 @@ for dreamtower in dream_tower:
 
   #날짜 정보 가져오기
   date = dreamtower.select_one('th > a').text.strip()
+  day = date.split()[1]
+  date = date.split()[0]
 
+  # 점심 DB 저장
   lunch = dreamtower.select_one('td:nth-child(3)').text.strip()
-  print(lunch)
+  dreamtower_menu = {
+    'place': '경기드림타워',
+    'lunch': True,
+    'menu': lunch,
+    'date': date,
+    'day': day
+  }
+  db.dreamtower.insert_one(dreamtower_menu)
 
+  # 저녁 DB 저장
   dinner = dreamtower.select_one('td:nth-child(4)').text.strip()
-
-  lunch = {
-    'name': '경기드림타워_점심',
-    'day': date,
-    'menu': lunch
+  dreamtower_menu = {
+    'place': '경기드림타워',
+    'lunch': False,
+    'menu': dinner,
+    'date': date,
+    'day': day
   }
-  dinner = {
-    'name': '경기드림타워_저녁',
-    'day': date,
-    'menu': dinner
-  }
-
-  print(lunch)
+  db.dreamtower.insert_one(dreamtower_menu)
