@@ -3,12 +3,88 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <script></script>
+
+    <!-- jQuery 를 포함합니다. -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Bootstrap 을 포함합니다. -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://getbootstrap.com/docs/5.3/assets/css/docs.css"
+      rel="stylesheet"
+    />
+
+    <title>JungleBob</title>
+    <script>
+      function checkLunch() {
+        console.log("lunch");
+        $("#dt_menu").empty();
+        let menu = `
+        <p>
+            {{ template_dt_lunch_menu }}
+        </p>
+        `;
+        $("#dt_menu").append(`${menu}`);
+      }
+
+      function checkDinner() {
+        console.log("dinner");
+        $("#dt_menu").empty();
+        let menu = `
+        <p>
+            {{ template_dt_dinner_menu }}
+        </p>
+        `;
+        $("#dt_menu").append(`${menu}`);
+      }
+    </script>
   </head>
   <body>
-    <h1>{{ template_date }}</h1>
+    <h1 class="display-3">{{ template_date }}</h1>
+
     <h3>기숙사 식당</h3>
-    <p></p>
+    <div
+      class="btn-group"
+      role="group"
+      aria-label="Basic radio toggle button group"
+    >
+      <input
+        type="radio"
+        class="btn-check"
+        name="btnradio"
+        id="btnradio1"
+        autocomplete="off"
+        checked
+        onclick="checkLunch()"
+      />
+      <label class="btn btn-outline-primary" for="btnradio1">점심</label>
+
+      <input
+        type="radio"
+        class="btn-check"
+        name="btnradio"
+        id="btnradio2"
+        autocomplete="off"
+        onclick="checkDinner()"
+      />
+      <label class="btn btn-outline-primary" for="btnradio2">저녁</label>
+    </div>
+    <div id="dt_menu">
+      <p>{{ template_isLunch }}</p>
+      {% if template_isLunch == 'True' %}
+      <p>{{ template_dt_lunch_menu }}</p>
+      {% else %}
+      <p>{{ template_dt_dinner_menu }}</p>
+      {% endif %}
+    </div>
+
+    <h3>경슐랭</h3>
+    <p>{{ template_kcl_menu }}</p>
+
+    <h3>E-스퀘어</h3>
+    <p>{{ template_esq_menu }}</p>
   </body>
 </html>
