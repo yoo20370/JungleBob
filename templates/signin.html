@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+</head>
+<script>
+    function signin(){
+        let signinID = $('#signinID').val()
+        let signinPW = $('#signinPW').val()
+        let signinName = $('#signName').val()
+        
+        $.ajax({
+            type: 'POST',
+            url : '/signIn',
+            data : {"signinID":signinID, "signinPW":signinPW, "signinName":signinName},
+            success : function(response){
+                if(response['msg'] == "Fail"){
+                    alert("중복된 아이디 입니다.")
+                    return 
+                } else {
+                    alert("가입이 완료되었습니다. ")
+                    window.location.href = '/today'
+                }
+            }
+        })
+    }
+</script>
+<body>
+    아이디 : <input type="text" id="signinID">
+    패스워드 : <input type="password" id="signinPW">
+    이름 : <input type="text" id="signName">
+    <button type="button" id="singinBtn" onclick="signin()">가입하기</button>
+</body>
+</html>
