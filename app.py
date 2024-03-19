@@ -1,5 +1,5 @@
 # Flask 
-from flask import Flask, render_template, jsonify, request, redirect, session
+from flask import Flask, render_template, jsonify, request, redirect, make_response
 app = Flask(__name__)
 
 # pyjwt
@@ -15,6 +15,27 @@ SECRET_KEY = "jungleBob"
 
 # 메인 페이지
 from datetime import datetime
+
+import time
+
+def tokenCheck() :
+    accessToken = request.cookies.get('access_token')
+    
+    try :
+        if accessToken : 
+            payload = jwt.decode(accessToken, SECRET_KEY, "HS256")
+            if int(payload['time']) < int(time.time() * 1000) : 
+                print('토큰 만료')
+                return False
+            else :
+                print('토큰 유효')
+                return payload
+        else :
+            print("토큰 없음")
+            return False
+    except jwt.exceptions.DecodeError :
+        return False 
+
 def getDate():
     date = ""
     date += str(datetime.today().year) + "-"
@@ -29,6 +50,13 @@ def getDate():
 
 @app.route("/today", methods=['GET'])
 def today() : 
+
+    # 토큰 여부 확인
+    result = tokenCheck()
+    if result == False :
+        return redirect('http://localhost:5000/login')
+    print(result)
+
     # 시스템 날짜 가져와 년-월-일 출력
     # 이후 날짜 비교를 위해 date 변수 그대로 사용
     date = getDate()
@@ -93,12 +121,52 @@ def signInPost() :
 # 로그인 창 띄우기 
 @app.route("/login", methods=['GET'])
 def loginGet() :
-    pass
+    return render_template("login.html")
 
 # 로그인 시도 
 @app.route("/login", methods=['POST'])
 def loginPost() :
-    pass
+    # 토큰 가져오기 
+    accessToken = request.cookies.get('access_token')
+    
+    try :
+        if accessToken : 
+            payload = jwt.decode(accessToken, SECRET_KEY, "HS256")
+            if int(payload['time']) < int(time.time() * 1000) : 
+                print('토큰 만료')
+                pass
+            else :
+                print('토큰 유효')
+                return jsonify({"msg":"token auth success"})
+    except jwt.exceptions.DecodeError :
+        pass
+        
+    # 2. 토큰이 없다면 로그인을 시도하는 사람이므로 로그인 ID, PW를 확인 후 토큰을 발행한다.
+    userId = request.form['userId'].strip()
+    userPw = request.form['userPw'].strip()
+    
+    userData = db.users.find_one({"id":userId},{"_id":False})
+
+    print(userData)
+    if userData == None :
+        return jsonify({"msg":'Login Fail'})
+    # 로그인 정보 없음 
+    elif userId != userData['id'] or userPw != userData['pw'] :
+        return jsonify({"msg":"Login Fail"})
+    
+    payload = {
+        # 토큰 유효 시간 1시간 -  Unix 타임 스탬프 사용
+        'time': int(time.time() * 1000) + 10 * 1000, 
+        'id':userData['id'],
+        'name':userData['name']
+    }
+
+    token =  jwt.encode(payload , SECRET_KEY , "HS256")
+
+    # 토큰을 발행해서 클라이언트 쿠키에 저장 
+    reps = make_response()
+    reps.set_cookie('access_token', token)
+    return reps
 
 #####################################
 
