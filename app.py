@@ -13,10 +13,16 @@ db = client.jungleBob
 # jwt를 위한 비밀키
 SECRET_KEY = "jungleBob"
 
-# 메뉴를 출력 
-@app.route("/today")
-def home() :
-    return render_template('index.html')
+# menu
+from datetime import datetime
+@app.route("/today", methods=['GET'])
+def today() : 
+    date = ""
+    date += str(datetime.today().year) + "-"
+    date += str(datetime.today().month) + "-"
+    date += str(datetime.today().day)
+
+    return render_template('today.html', template_date = date)
 
 #################################### 회원가입 
 
@@ -57,4 +63,4 @@ def loginPost() :
 #####################################
 
 if __name__ == "__main__" :
-    app.run("0.0.0.0", port=5000, debug=True)
+    app.run("0.0.0.0", port=5001, debug=True)
