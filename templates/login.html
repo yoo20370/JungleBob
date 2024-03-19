@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap 포함 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
+
+    <!-- CSS 스타일 초기화 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.2/reset.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+
+    <title>Document</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: black;
+            color: #fff;
+        }
+        input {
+
+        }
+        .container .login .inner {
+            width: 400px;
+            height: 400px;
+            margin: auto;
+            position: absolute;
+            margin-top: 500px;
+            left: 0;
+            right: 0;
+        }
+        .login .title {
+            text-align: left;
+            font-weight: 700;
+            font-size: 55px;
+            margin-bottom: 100px;
+        }
+        .login .login-form {
+
+        }
+        .login .login-form .id {
+            margin-bottom: 50px;
+            font-size: 25px;
+        }
+        .login .login-form .id input {
+            height: 60px;
+        }
+        .login .login-form .id .id_title {
+            font-weight: 300;
+            margin-bottom: 10px;
+        }
+        .login .login-form .password {
+            margin-bottom: 80px;
+            font-size: 25px;
+        }
+        .login .login-form .password .pw_title {
+            font-weight: 300;
+            margin-bottom: 10px;
+        }
+        .login .login-form .password input {
+            height: 60px;
+        }
+        .login .login-form .login-btn button {
+            width: 100%;
+            height: 60px;
+            font-size: 23px;
+            background-color: #00D67A;
+            border-style: none;
+            font-weight: 500; 
+        }
+        .login .login-form .sign-in-btn { 
+            padding: 5px;
+            margin-top: 20px;
+            text-align: center;  
+        }
+        .login .login-form .sign-in-btn a {
+            text-decoration: none;
+            font-size: 23px; 
+            color: #fff;
+            font-weight: 500;  
+        }
+
+        /* 중앙정렬 */
+        /* .container {
+            display: flex;
+            width: 100vw;
+            height: 100vh;
+            background-color: #fff;
+        }
+        .left-bg {
+            width: 50%;
+            height: 100vh;
+            background-color: antiquewhite;
+        }
+        .right-bg {
+            background-color: aquamarine;
+            width: 50%;
+            height: 100%;
+        } */
+    </style>
+    <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+</head>
+<script>
+    function loginCheck(){
+        let userId = $("#loginId").val()
+        let userPw = $("#loginPw").val()
+      
+        $.ajax({
+            type : 'POST',
+            url : '/login',
+            data : { 
+                "userId": userId,
+                "userPw": userPw
+            },
+            success : function(response){
+                
+                if(response["msg"] == "success"){ // 토큰으로 로그인 
+                    console.log("로그인 성공 !!")
+                } else if(response["msg"] == "create token") { // 토큰이 없어서 
+                    console.log(response['token'])
+                    const obj = {
+                        value : response['token'],
+                        expire : Date.now() + 10 * 1000
+                    }
+                    console.log(response['token'])
+                    //window.localStorage("token", JSON.stringify(obj))
+                }
+            }
+        })
+    }
+</script>
+<body>
+    <div class="container">
+        <div class="login left-bg">
+            <div class="inner">
+                <div class="title">
+                    <h1>Jungle Bap</h1>
+                </div>
+                <div class="login-form">
+                    <form class="id">
+                        <div class="id_title">ID</div>
+                        <input type="text" class="form-control">
+                    </form>
+                    <form class="password">
+                        <div class="pw_title">Password</div>
+                        <input type="password" class="form-control">
+                    </form>
+                    <div class="login-btn">
+                        <button class="btn btn-primary" type="submit">로그인</button>
+                    </div>
+                    <div class="sign-in-btn">
+                        <a href="#">회원가입</a>
+                    </div>
+                </div>    
+            </div>
+        </div>
+        <div class="right-bg">
+
+        </div>
+    </div>
+</body>
+</html>
