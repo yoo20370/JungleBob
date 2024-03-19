@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 from pymongo import MongoClient 
 client = MongoClient('localhost',27017)
 db = client.jungleBob
-dreamtower = db["menus"]
+menus = db["menus"]
 
 url = "https://dorm.kyonggi.ac.kr:446/Khostel/mall_main.php?viewform=B0001_foodboard_list&board_no=1"
 
@@ -37,7 +37,7 @@ for dreamtower in dream_tower:
     'date': date,
     'day': day
   }
-  db.dreamtower.insert_one(dreamtower_menu)
+  db.menus.insert_one(dreamtower_menu)
 
   # 저녁 DB 저장
   dinner = dreamtower.select_one('td:nth-child(4)').text.strip()
@@ -48,4 +48,4 @@ for dreamtower in dream_tower:
     'date': date,
     'day': day
   }
-  db.dreamtower.insert_one(dreamtower_menu)
+  db.menus.insert_one(dreamtower_menu)
