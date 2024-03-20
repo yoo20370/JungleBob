@@ -89,38 +89,17 @@
         // 경기드림타워
         $("#dt_people").empty();
         let ppl = `
-        {% for ps in template_dt_dinner_people %} {{ ps }} &nbsp; &nbsp; {% endfor %}
+        {% for ps in template_dt_dinner_people %}
+          {% if ps == template_userName %} 
+            <b> {{ ps }} &nbsp; &nbsp; </b>
+          {% else %}
+            {{ ps }} &nbsp; &nbsp; 
+          {% endif %}
+        {% endfor %}
         `;
         $("#dt_people").append(`${ppl}`);
 
         // 경술랭
-        $("#kcl_people").empty();
-        ppl = `
-        {% for ps in template_kcl_dinner_people %} {{ ps }} &nbsp; &nbsp; {% endfor %}
-        `;
-        $("#kcl_people").append(`${ppl}`);
-
-        // 이스퀘어
-        $("#esq_people").empty();
-        ppl = `
-        {% for ps in template_esq_dinner_people %} {{ ps }} &nbsp; &nbsp; {% endfor %}
-        `;
-        $("#esq_people").append(`${ppl}`);
-      }
-
-      function selectedMenu() {
-        let id = $('input[name="flexRadioDefault"]:checked').attr("id");
-        let place = "";
-
-        // 이름판 변경
-        // 경기드림타워
-        $("#dt_people").empty();
-        let ppl = `
-        {% for ps in template_dt_dinner_people %} {{ ps }} &nbsp; &nbsp; {% endfor %}
-        `;
-        $("#dt_people").append(`${ppl}`);
-
-        // 경슐랭
         $("#kcl_people").empty();
         ppl = `
         {% for ps in template_kcl_dinner_people %} {{ ps }} &nbsp; &nbsp; {% endfor %}
@@ -141,13 +120,13 @@
 
         switch (id) {
           case "placeradio1":
-            place = "기숙사 식당";
+            place = "경기드림타워";
             break;
           case "placeradio2":
-            place = "경술랭";
+            place = "경슐랭";
             break;
           case "placeradio3":
-            place = "E-스퀘어";
+            place = "이스퀘어";
             break;
           default:
             place = "장소 없음";
@@ -160,6 +139,7 @@
           success: function (response) {
             if (response["result"] == "success") {
               console.log("식사 데이터 저장 완료");
+              window.location.href = "/today";
             } else {
               console.log("식사 데이터 저장 실패");
             }
