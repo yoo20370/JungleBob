@@ -55,21 +55,39 @@
         // 경기드림타워
         $("#dt_people").empty();
         let ppl = `
-        {% for ps in template_dt_lunch_people %} {{ ps }} &nbsp; &nbsp; {% endfor %}
+        {% for ps in template_dt_lunch_people %} 
+          {% if ps == template_userName %} 
+            <b style="color: #198754;"> {{ ps }} &nbsp; &nbsp; </b>
+          {% else %}
+            {{ ps }} &nbsp; &nbsp; 
+          {% endif %}
+        {% endfor %}
         `;
         $("#dt_people").append(`${ppl}`);
 
         // 경술랭
         $("#kcl_people").empty();
         ppl = `
-        {% for ps in template_kcl_lunch_people %} {{ ps }} &nbsp; &nbsp; {% endfor %}
+        {% for ps in template_kcl_lunch_people %}
+          {% if ps == template_userName %} 
+            <b style="color: #198754;"> {{ ps }} &nbsp; &nbsp; </b>
+          {% else %}
+            {{ ps }} &nbsp; &nbsp; 
+          {% endif %}
+        {% endfor %}
         `;
         $("#kcl_people").append(`${ppl}`);
 
         // 이스퀘어
         $("#esq_people").empty();
         ppl = `
-        {% for ps in template_esq_lunch_people %} {{ ps }} &nbsp; &nbsp; {% endfor %}
+        {% for ps in template_esq_lunch_people %} 
+          {% if ps == template_userName %} 
+            <b style="color: #198754;"> {{ ps }} &nbsp; &nbsp; </b>
+          {% else %}
+            {{ ps }} &nbsp; &nbsp; 
+          {% endif %}
+        {% endfor %}
         `;
         $("#esq_people").append(`${ppl}`);
       }
@@ -91,7 +109,7 @@
         let ppl = `
         {% for ps in template_dt_dinner_people %}
           {% if ps == template_userName %} 
-            <b> {{ ps }} &nbsp; &nbsp; </b>
+            <b style="color: #198754;"> {{ ps }} &nbsp; &nbsp; </b>
           {% else %}
             {{ ps }} &nbsp; &nbsp; 
           {% endif %}
@@ -102,14 +120,26 @@
         // 경술랭
         $("#kcl_people").empty();
         ppl = `
-        {% for ps in template_kcl_dinner_people %} {{ ps }} &nbsp; &nbsp; {% endfor %}
+        {% for ps in template_kcl_dinner_people %} 
+          {% if ps == template_userName %} 
+            <b style="color: #198754;"> {{ ps }} &nbsp; &nbsp; </b>
+          {% else %}
+            {{ ps }} &nbsp; &nbsp; 
+          {% endif %}
+        {% endfor %}
         `;
         $("#kcl_people").append(`${ppl}`);
 
         // 이스퀘어
         $("#esq_people").empty();
         ppl = `
-        {% for ps in template_esq_dinner_people %} {{ ps }} &nbsp; &nbsp; {% endfor %}
+        {% for ps in template_esq_dinner_people %} 
+          {% if ps == template_userName %} 
+            <b style="color: #198754;"> {{ ps }} &nbsp; &nbsp; </b>
+          {% else %}
+            {{ ps }} &nbsp; &nbsp; 
+          {% endif %}
+        {% endfor %}
         `;
         $("#esq_people").append(`${ppl}`);
       }
@@ -302,8 +332,13 @@
                 <span class="title">경기드림타워</span>
               </div>
               <div id="dt_people">
-                {% for ps in template_dt_lunch_people %} {{ ps }} &nbsp; &nbsp; {%
-                endfor %}
+                {% for ps in template_dt_lunch_people %}
+                  {% if ps == template_userName %} 
+                    <b style="color: #198754;"> {{ ps }} &nbsp; &nbsp; </b>
+                  {% else %}
+                    {{ ps }} &nbsp; &nbsp; 
+                  {% endif %}
+                {% endfor %}
               </div>
             </div>
 
@@ -318,7 +353,12 @@
                 <span class="title">경슐랭</span>
               </div>
               <div id="kcl_people">
-                {% for ps in template_kcl_lunch_people %} {{ ps }} &nbsp; &nbsp;
+                {% for ps in template_kcl_lunch_people %}
+                  {% if ps == template_userName %} 
+                    <b style="color: #198754;"> {{ ps }} &nbsp; &nbsp; </b>
+                  {% else %}
+                    {{ ps }} &nbsp; &nbsp; 
+                  {% endif %}
                 {% endfor %}
               </div>
             </div>
@@ -333,7 +373,12 @@
                 <span class="title">E-스퀘어</span>
               </div>
               <div id="esq_people">
-                {% for ps in template_esq_lunch_people %} {{ ps }} &nbsp; &nbsp;
+                {% for ps in template_esq_lunch_people %}
+                  {% if ps == template_userName %} 
+                    <b style="color: #198754;"> {{ ps }} &nbsp; &nbsp; </b>
+                  {% else %}
+                    {{ ps }} &nbsp; &nbsp; 
+                  {% endif %}
                 {% endfor %}
             </div>
             </div>
