@@ -84,6 +84,28 @@
         </p>
         `;
         $("#dt_menu").append(`${menu}`);
+
+        // 이름판 변경
+        // 경기드림타워
+        $("#dt_people").empty();
+        let ppl = `
+        {% for ps in template_dt_dinner_people %} {{ ps }} &nbsp; &nbsp; {% endfor %}
+        `;
+        $("#dt_people").append(`${ppl}`);
+
+        // 경술랭
+        $("#kcl_people").empty();
+        ppl = `
+        {% for ps in template_kcl_dinner_people %} {{ ps }} &nbsp; &nbsp; {% endfor %}
+        `;
+        $("#kcl_people").append(`${ppl}`);
+
+        // 이스퀘어
+        $("#esq_people").empty();
+        ppl = `
+        {% for ps in template_esq_dinner_people %} {{ ps }} &nbsp; &nbsp; {% endfor %}
+        `;
+        $("#esq_people").append(`${ppl}`);
       }
 
       function selectedMenu() {
