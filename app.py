@@ -14,7 +14,7 @@ db = client.jungleBob
 SECRET_KEY = "jungleBob"
 
 # Port 번호
-PORT = 5000
+PORT = 5001
 
 # Global 변수
 global userData
@@ -58,10 +58,10 @@ def getDate():
 def today() : 
 
     # 토큰 여부 확인
-    result = tokenCheck()
-    if result == False :
-        return redirect('http://localhost:' + str(PORT) + '/login')
-    print(result)
+    # result = tokenCheck()
+    # if result == False :
+    #     return redirect('http://localhost:' + str(PORT) + '/login')
+    # print(result)
 
 
     ######### 금일 메뉴 데이터
@@ -100,40 +100,42 @@ def today() :
     
     # 경기드림타워 이름판
     ## 점심
-    dtpeople = db.logs.find({"place": "경기드림타워", "lunch": True, "date": date})
+    dtpeople = db.logs.find({"place": "경기드림타워", "lunch": "true", "date": date})
     dt_lunch_list = []
     for p in dtpeople:
+        print("안녕")
         dt_lunch_list.append(p['name'])
     ## 저녁
-    dtpeople = db.logs.find({"place": "경기드림타워", "lunch": False, "date": date})
+    dtpeople = db.logs.find({"place": "경기드림타워", "lunch": "false", "date": date})
     dt_dinner_list = []
     for p in dtpeople:
         dt_dinner_list.append(p['name'])
     
     # 경슐랭 이름판
     ## 점심
-    kclpeople = db.logs.find({"place": "경슐랭", "lunch": true, "date": date})
-    
+    kclpeople = db.logs.find({"place": "경슐랭", "lunch": "true", "date": date})
     kcl_lunch_list = []
     for p in kclpeople:
         kcl_lunch_list.append(p['name'])
     ## 저녁
-    kclpeople = db.logs.find({"place": "경슐랭", "lunch": False, "date": date})
+    kclpeople = db.logs.find({"place": "경슐랭", "lunch": "false", "date": date})
     kcl_dinner_list = []
     for p in kclpeople:
         kcl_dinner_list.append(p['name'])
 
     # 이스퀘어 이름판
     ## 점심
-    esqpeople = db.logs.find({"place": "이스퀘어", "lunch": True, "date": date})
+    esqpeople = db.logs.find({"place": "이스퀘어", "lunch": "true", "date": date})
     esq_lunch_list = []
     for p in esqpeople:
         esq_lunch_list.append(p['name'])
     ## 저녁
-    esqpeople = db.logs.find({"place": "이스퀘어", "lunch": False, "date": date})
+    esqpeople = db.logs.find({"place": "이스퀘어", "lunch": "false", "date": date})
     esq_dinner_list = []
     for p in esqpeople:
         esq_dinner_list.append(p['name'])
+
+    name = userData['name']
 
     return render_template('today.html', 
                            template_date = daydate,
@@ -142,7 +144,7 @@ def today() :
                            template_dt_lunch_people = dt_lunch_list, template_dt_dinner_people = dt_dinner_list, 
                            template_kcl_lunch_people = kcl_lunch_list, template_kcl_dinner_people = kcl_dinner_list, 
                            template_esq_lunch_people = esq_lunch_list, template_esq_dinner_people = esq_dinner_list,
-                           template_userName = userData['name'])
+                           template_userName = name)
 
 
 #################################### 회원가입 
@@ -162,7 +164,7 @@ def signInPost() :
     userData = db.users.find_one({"id":userId})
     
     if userData == None :
-        result = db.users.insert_one({"id":userId, "pw":userPw, "name":userName});
+        result = db.users.insert_one({"id":userId, "pw":userPw, "name":userName})
         print(result)
         return jsonify({"msg":"signin success"})
     else :
@@ -211,7 +213,7 @@ def loginPost() :
     
     payload = {
         # 토큰 유효 시간 1시간 -  Unix 타임 스탬프 사용
-        'time': int(time.time() * 1000) + 60 * 60 * 1000, 
+        'time': int(time.time() * 1000) + 10 * 1000, 
         'id':userData['id'],
         'name':userData['name']
     }
@@ -245,7 +247,7 @@ def selectedMenu() :
 def mypage() :
     result = tokenCheck()
     if result == False :
-        return redirect('http://localhost:5000/login')
+        return redirect('http://localhost:' + str(PORT) + '/login')
     
     lunch_menu = ''
     dinner_menu = ''
