@@ -1,44 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
-</head>
-<script>
-    function loginCheck(){
-        let userId = $("#loginId").val()
-        let userPw = $("#loginPw").val()
-      
-        $.ajax({
-            type : 'POST',
-            url : '/login',
-            data : { 
-                "userId": userId,
-                "userPw": userPw
-            },
-            success : function(response){
-                
-                if(response["msg"] == "success"){ // 토큰으로 로그인 
-                    console.log("로그인 성공 !!")
-                } else if(response["msg"] == "create token") { // 토큰이 없어서 
-                    console.log(response['token'])
-                    const obj = {
-                        value : response['token'],
-                        expire : Date.now() + 10 * 1000
-                    }
-                    console.log(response['token'])
-                    //window.localStorage("token", JSON.stringify(obj))
-                }
-            }
-        })
+
+    <!-- 구글 폰트 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+    body {
+        font-family: "IBM Plex Sans KR", sans-serif;
+      }
+    </style>
+
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+  </head>
+  <script>
+    function loginCheck() {
+      let userId = $("#loginId").val();
+      let userPw = $("#loginPw").val();
+
+      $.ajax({
+        type: "POST",
+        url: "/login",
+        data: {
+          userId: userId,
+          userPw: userPw,
+        },
+        success: function (response) {
+          if (response["msg"] == "success") {
+            // 토큰으로 로그인
+            console.log("로그인 성공 !!");
+          } else if (response["msg"] == "create token") {
+            // 토큰이 없어서
+            console.log(response["token"]);
+            const obj = {
+              value: response["token"],
+              expire: Date.now() + 10 * 1000,
+            };
+            console.log(response["token"]);
+            //window.localStorage("token", JSON.stringify(obj))
+          }
+        },
+      });
     }
-</script>
-<body>
+  </script>
+  <body>
     <h1>This is a home</h1>
-    <input type="text" id="loginId" >
-    <input type="password" id="loginPw">
+    <input type="text" id="loginId" />
+    <input type="password" id="loginPw" />
     <button type="button" onclick="loginCheck()">로그인하기</button>
-</body>
+  </body>
 </html>

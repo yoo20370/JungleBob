@@ -16,6 +16,11 @@
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
     />
 
+    <!-- 구글 폰트 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR&display=swap" rel="stylesheet">
+
     <!-- jQuery 포함 -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
@@ -154,7 +159,7 @@
       <a href="/" class="logo">
         <img src="../static/images/logo.svg" alt="정글밥" />
       </a>
-      <div class="userName">{{template_userName}}</div>
+      <a href="#" class="userName">{{template_userName}}</a>
       <!-- 오늘 날짜 -->
       <div class="date">
         <h1 class="display-3">{{ template_date }}</h1>
@@ -301,7 +306,7 @@
               <div class="card-header">
                 <span class="title">경기드림타워</span>
               </div>
-              <div id="dt_people">
+              <div id="dt_people" class="logs_user">
                 {% for ps in template_dt_lunch_people %} {{ ps }} &nbsp; &nbsp; {%
                 endfor %}
               </div>
@@ -317,7 +322,7 @@
               <div class="card-header">
                 <span class="title">경슐랭</span>
               </div>
-              <div id="kcl_people">
+              <div id="kcl_people" class="logs_user">
                 {% for ps in template_kcl_lunch_people %} {{ ps }} &nbsp; &nbsp;
                 {% endfor %}
               </div>
@@ -332,7 +337,7 @@
               <div class="card-header">
                 <span class="title">E-스퀘어</span>
               </div>
-              <div id="esq_people">
+              <div id="esq_people" class="logs_user">
                 {% for ps in template_esq_lunch_people %} {{ ps }} &nbsp; &nbsp;
                 {% endfor %}
             </div>

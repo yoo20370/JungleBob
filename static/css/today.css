@@ -1,4 +1,7 @@
 /* 공통 */
+body {
+  font-family: "IBM Plex Sans KR", sans-serif;
+}
 .inner {
   width: 100%;
   margin: 0 auto;
@@ -144,4 +147,13 @@ header .date h1 {
   margin: auto;
   left: 0;
   right: 0;
+}
+
+.logs_user {
+  margin-top: 24px;
+}
+
+.card-content {
+  min-height: 253.45px;
+  min-width: 400px;
 }
