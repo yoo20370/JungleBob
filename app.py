@@ -259,8 +259,6 @@ def mypage() :
     lunch = db.logs.find_one({'name':name,'date':date,'lunch':True})
     dinner = db.logs.find_one({'name':name,'date':date, 'lunch':False})
 
-    print('a', lunch)
-    print('b', dinner)
     lunch_place = lunch['place']
     dinner_place = dinner['place']
 
@@ -275,10 +273,6 @@ def mypage() :
         dinner_menu = lunch_menu_rcd['menu']
         dinner_menu = dinner_menu.replace('\r\n', ', ')
         dinner_place = dinner_menu_rcd['place']
-    
-    print(lunch_menu,  dinner_menu, lunch_place, dinner_place)
-   
-
  
     if lunch != None :
         if lunch['place'] == '경슐랭' :
@@ -298,14 +292,23 @@ def mypage() :
         else : 
             pass
 
-    print('a',lunch_menu, 'b', dinner_menu, 'c', lunch_place, 'd', dinner_place)
+    day = datetime.today().weekday() ## 요일
+    if day == 0: date += "(월)"
+    elif day == 1: date += "(화)"
+    elif day == 2: date += "(수)"
+    elif day == 3: date += "(목)"
+    elif day == 4: date += "(금)"
+    elif day == 5: date += "(토)"
+    elif day == 6: date += "(일)"
 
+    print(day)
     return render_template('mypage.html', payload = result,
                            template_lunch_menu = lunch_menu,
                            template_lunch_place = lunch_place,
                            template_dinner_menu = dinner_menu,
                            template_dinner_place = dinner_place,
-                           template_my_name = result['name']
+                           template_my_name = result['name'],
+                           template_date = date
                            )
 
 if __name__ == "__main__" :
