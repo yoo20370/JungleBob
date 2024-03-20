@@ -71,82 +71,108 @@
       }
     </script>
   </head>
+  <style>
+    .centered {
+      display: table;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  </style>
   <body>
-    <h1 class="display-3">{{ template_date }}</h1>
+    <div class="container">
+      <div class="row">
+        <!--메뉴판 열-->
+        <div class="col">
+          <h1 class="display-3">{{ template_date }}</h1>
 
-    <!--기숙사 식당-->
-    <div class="form-check">
-      <input
-        class="form-check-input"
-        type="radio"
-        name="flexRadioDefault"
-        id="placeradio1"
-      />
-      <label class="form-check-label" for="flexRadioDefault1">
-        <h3>기숙사 식당</h3>
-      </label>
+          <!--경기드림타워-->
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="flexRadioDefault"
+              id="placeradio1"
+            />
+            <label class="form-check-label" for="flexRadioDefault1">
+              <h3>경기드림타워</h3>
+            </label>
+          </div>
+
+          <div
+            class="btn-group"
+            role="group"
+            aria-label="Basic radio toggle button group"
+          >
+            <input
+              type="radio"
+              class="btn-check"
+              name="btnradio"
+              id="btnradio1"
+              autocomplete="off"
+              checked
+              onclick="checkLunch()"
+            />
+            <label class="btn btn-outline-primary" for="btnradio1">점심</label>
+
+            <input
+              type="radio"
+              class="btn-check"
+              name="btnradio"
+              id="btnradio2"
+              autocomplete="off"
+              onclick="checkDinner()"
+            />
+            <label class="btn btn-outline-primary" for="btnradio2">저녁</label>
+          </div>
+          <div id="dt_menu">
+            <p>{{ template_dt_lunch_menu }}</p>
+          </div>
+
+          <!--경슐랭-->
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="flexRadioDefault"
+              id="placeradio2"
+              checked
+            />
+            <label class="form-check-label" for="flexRadioDefault2">
+              <h3>경슐랭</h3>
+            </label>
+          </div>
+
+          <p>{{ template_kcl_menu }}</p>
+
+          <!--이스퀘어-->
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="flexRadioDefault"
+              id="placeradio3"
+              checked
+            />
+            <label class="form-check-label" for="flexRadioDefault2"
+              ><h3>E-스퀘어</h3>
+            </label>
+          </div>
+
+          <p>{{ template_esq_menu }}</p>
+        </div>
+
+        <!--이름판 열-->
+        <div class="col">
+          <h3>경기드림타워</h3>
+          {% for ps in template_dtpeople %} {{ ps }} &nbsp; &nbsp; {% endfor %}
+
+          <h3>경슐랭</h3>
+          {% for ps in template_kclpeople %} {{ ps }} &nbsp; &nbsp; {% endfor %}
+
+          <h3>E-스퀘어</h3>
+          {% for ps in template_esqpeople %} {{ ps }} &nbsp; &nbsp; {% endfor %}
+        </div>
+      </div>
     </div>
-
-    <div
-      class="btn-group"
-      role="group"
-      aria-label="Basic radio toggle button group"
-    >
-      <input
-        type="radio"
-        class="btn-check"
-        name="btnradio"
-        id="btnradio1"
-        autocomplete="off"
-        checked
-        onclick="checkLunch()"
-      />
-      <label class="btn btn-outline-primary" for="btnradio1">점심</label>
-
-      <input
-        type="radio"
-        class="btn-check"
-        name="btnradio"
-        id="btnradio2"
-        autocomplete="off"
-        onclick="checkDinner()"
-      />
-      <label class="btn btn-outline-primary" for="btnradio2">저녁</label>
-    </div>
-    <div id="dt_menu">
-      <p>{{ template_dt_lunch_menu }}</p>
-    </div>
-
-    <!--경슐랭-->
-    <div class="form-check">
-      <input
-        class="form-check-input"
-        type="radio"
-        name="flexRadioDefault"
-        id="placeradio2"
-        checked
-      />
-      <label class="form-check-label" for="flexRadioDefault2">
-        <h3>경슐랭</h3>
-      </label>
-    </div>
-
-    <p>{{ template_kcl_menu }}</p>
-
-    <!--이스퀘어-->
-    <div class="form-check">
-      <input
-        class="form-check-input"
-        type="radio"
-        name="flexRadioDefault"
-        id="placeradio3"
-        checked
-      />
-      <label class="form-check-label" for="flexRadioDefault2"
-        ><h3>E-스퀘어</h3>
-      </label>
-    </div>
-
-    <p>{{ template_esq_menu }}</p>
   </body>
 </html>
