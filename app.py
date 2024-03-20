@@ -1,3 +1,4 @@
+
 # Flask 
 from flask import Flask, render_template, jsonify, request, redirect, make_response
 app = Flask(__name__)
@@ -341,6 +342,9 @@ def mypage() :
                            template_my_name = result['name'],
                            template_date = date
                            )
-
+@app.route('/map', methods=['GET'])
+def map() :
+    return render_template('map.html')
 if __name__ == "__main__" :
     app.run("0.0.0.0", port=PORT, debug=True)
+

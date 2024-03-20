@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>지도 생성하기</title>
+    <title>학식 지도</title>
 
 </head>
 
@@ -80,8 +80,8 @@
 
         var mapContainer = document.getElementById('map');
         var mapOption = {
-            // center: new kakao.maps.LatLng(37.19357, 127.0227), // 지도 중심 좌표 (서울)
-            center: new kakao.maps.LatLng(37.300696432886156, 127.03621703642439), // 지도 중심 좌표 (서울)
+            draggable: false,
+            center: new kakao.maps.LatLng(37.300696432886156, 127.03621703642439), 
             level: 3 // 지도 확대 레벨
         };
 
@@ -132,7 +132,3 @@
 </body>
 
 </html>
-
-# 지도
-# 라디오 버튼으로 변경
-# 토큰
