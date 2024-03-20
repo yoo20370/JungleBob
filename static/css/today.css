@@ -1,0 +1,147 @@
+/* 공통 */
+.inner {
+  width: 100%;
+  margin: 0 auto;
+}
+.img {
+  display: block;
+}
+/* Header */
+header {
+  position: relative;
+  background-color: #198754;
+  height: 124px;
+}
+header .logo {
+  width: 260px;
+  height: 124px;
+  display: block;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+header .logo img {
+  width: 200px;
+
+  margin: auto;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+header .userName {
+  position: absolute;
+  right: 0;
+  top:0;
+  margin: auto;
+  bottom: 0;
+
+  margin-right: 20px;
+
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: #D9D9D9;
+  color: #fff;
+  font-size: 26px;
+}
+header .date {
+    width: 100%;
+    text-align: center;
+    margin: auto;
+    position: absolute;
+    bottom: 0;
+}
+header .date h1 {
+  font-size: 20px;
+  color: white;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+/* lunch or dinner */
+.lunchOrDinner {
+  display: flex;
+  justify-content: center;
+  margin-top: 70px;
+}
+.lunchOrDinner img {
+  display: block;
+  margin: auto;
+}
+.lunchOrDinner .lunch
+ {
+  margin-right: 15px;
+}
+.lunchOrDinner .dinner {
+  margin-left: 15px;
+}
+.lunchOrDinner .dinner div {
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* today 카드 css */
+.card{
+  margin-bottom: 40px;
+}
+.card .card-header {
+  border-bottom: 2px solid #198754;
+  position: relative;
+}
+.container .card .card-header input {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto 0;
+
+  width: 25px;
+  height: 25px;
+}
+.container .card .card-flex {
+  display: flex;
+}
+.container .card .card-flex figure{
+  border-radius: 20px;
+  overflow: hidden;
+  margin-top: 24px;
+  width: 128px;
+  height: 128px;
+}
+.container .card .card-flex figure img{
+  display: block;
+  width: 128px;
+  height: 128px;
+}
+.container .card .card-flex #dt_menu p {
+  margin-top: 24px;
+  margin-left: 24px;
+}
+
+.col-left {
+  margin-right: 3px;
+}
+.col-right {
+  margin-left: 3px;
+}
+
+.row {
+  position: relative;
+}
+.row .submit-btn {
+  position: absolute;
+  width: 100px;
+  margin: auto;
+  left: 0;
+  right: 0;
+}
