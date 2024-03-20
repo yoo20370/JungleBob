@@ -5,16 +5,24 @@ app = Flask(__name__)
 # pyjwt
 import jwt
 
-# pymongo DB 연결 pip in
-from pymongo import MongoClient 
-client = MongoClient('localhost',27017)
-db = client.jungleBob
-
 # jwt를 위한 비밀키
-SECRET_KEY = "jungleBob"
+from var import SECRET_KEY
 
 # Port 번호
-PORT = 5001
+from var import PORT
+
+# IP
+from var import IP
+
+# MongoDB ID/PW
+from var import ID
+from var import PW
+from var import DBPORT
+
+# pymongo DB 연결 pip in
+from pymongo import MongoClient 
+client = MongoClient('mongodb://' + ID + ':' + PW + '@' + IP, DBPORT)
+db = client.jungleBob
 
 # Global 변수
 global userData
@@ -265,7 +273,7 @@ def selectedMenu() :
 def mypage() :
     result = tokenCheck()
     if result == False :
-        return redirect('http://localhost:' + str(PORT) + '/login')
+        return redirect('http://' + IP + ":" + str(PORT) + '/login')
     
     lunch_menu = ''
     dinner_menu = ''
