@@ -96,28 +96,48 @@ def today() :
     ######### 이름판 데이터 
     
     # 경기드림타워 이름판
+    ## 점심
     dtpeople = db.log.find({"place": "경기드림타워", "lunch": True, "date": date})
-    dtlist = []
+    dt_lunch_list = []
     for p in dtpeople:
-        dtlist.append(p['name'])
+        dt_lunch_list.append(p['name'])
+    ## 저녁
+    dtpeople = db.log.find({"place": "경기드림타워", "lunch": False, "date": date})
+    dt_dinner_list = []
+    for p in dtpeople:
+        dt_dinner_list.append(p['name'])
     
     # 경슐랭 이름판
+    ## 점심
     kclpeople = db.log.find({"place": "경슐랭", "lunch": True, "date": date})
-    kcllist = []
+    kcl_lunch_list = []
     for p in kclpeople:
-        kcllist.append(p['name'])
+        kcl_lunch_list.append(p['name'])
+    ## 저녁
+    kclpeople = db.log.find({"place": "경슐랭", "lunch": False, "date": date})
+    kcl_dinner_list = []
+    for p in kclpeople:
+        kcl_dinner_list.append(p['name'])
 
     # 이스퀘어 이름판
+    ## 점심
     esqpeople = db.log.find({"place": "이스퀘어", "lunch": True, "date": date})
-    esqlist = []
+    esq_lunch_list = []
     for p in esqpeople:
-        esqlist.append(p['name'])
+        esq_lunch_list.append(p['name'])
+    ## 저녁
+    esqpeople = db.log.find({"place": "이스퀘어", "lunch": False, "date": date})
+    esq_dinner_list = []
+    for p in esqpeople:
+        esq_dinner_list.append(p['name'])
 
     return render_template('today.html', 
                            template_date = daydate,
                            template_dt_lunch_menu = dt_l_menu, template_dt_dinner_menu = dt_d_menu,
                            template_kcl_menu = kcl_menu, template_esq_menu = esq_menu,
-                           template_dtpeople = dtlist, template_kclpeople = kcllist, template_esqpeople = esqlist)
+                           template_dt_lunch_people = dt_lunch_list, template_dt_dinner_people = dt_dinner_list, 
+                           template_kcl_lunch_people = kcl_lunch_list, template_kcl_dinner_people = kcl_dinner_list, 
+                           template_esq_lunch_people = esq_lunch_list, template_esq_dinner_people = esq_dinner_list)
 
 
 #################################### 회원가입 

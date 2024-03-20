@@ -20,6 +20,7 @@
     <title>JungleBob</title>
     <script>
       function checkLunch() {
+        // 메뉴판 변경
         $("#dt_menu").empty();
         let menu = `
         <p>
@@ -27,9 +28,32 @@
         </p>
         `;
         $("#dt_menu").append(`${menu}`);
+
+        // 이름판 변경
+        // 경기드림타워
+        $("#dt_people").empty();
+        let ppl = `
+        {% for ps in template_dt_lunch_people %} {{ ps }} &nbsp; &nbsp; {% endfor %}
+        `;
+        $("#dt_people").append(`${ppl}`);
+
+        // 경술랭
+        $("#kcl_people").empty();
+        ppl = `
+        {% for ps in template_kcl_lunch_people %} {{ ps }} &nbsp; &nbsp; {% endfor %}
+        `;
+        $("#kcl_people").append(`${ppl}`);
+
+        // 이스퀘어
+        $("#esq_people").empty();
+        ppl = `
+        {% for ps in template_esq_lunch_people %} {{ ps }} &nbsp; &nbsp; {% endfor %}
+        `;
+        $("#esq_people").append(`${ppl}`);
       }
 
       function checkDinner() {
+        // 메뉴판 변경
         $("#dt_menu").empty();
         let menu = `
         <p>
@@ -37,37 +61,60 @@
         </p>
         `;
         $("#dt_menu").append(`${menu}`);
-      }
-      function selectedMenu() {
-        let id = event.target.id
-        let place = ''
 
-        switch(id) {
-          case 'placeradio1': 
-            place = '기숙사 식당'
-            break
-          case 'placeradio2':
-            place = '경술랭'
-            break
-          case 'placeradio3':
-            place = 'E-스퀘어'
-            break
+        // 이름판 변경
+        // 경기드림타워
+        $("#dt_people").empty();
+        let ppl = `
+        {% for ps in template_dt_dinner_people %} {{ ps }} &nbsp; &nbsp; {% endfor %}
+        `;
+        $("#dt_people").append(`${ppl}`);
+
+        // 경슐랭
+        $("#kcl_people").empty();
+        ppl = `
+        {% for ps in template_kcl_dinner_people %} {{ ps }} &nbsp; &nbsp; {% endfor %}
+        `;
+        $("#kcl_people").append(`${ppl}`);
+
+        // 이스퀘어
+        $("#esq_people").empty();
+        ppl = `
+        {% for ps in template_esq_dinner_people %} {{ ps }} &nbsp; &nbsp; {% endfor %}
+        `;
+        $("#esq_people").append(`${ppl}`);
+      }
+
+      function selectedMenu() {
+        let id = event.target.id;
+        let place = "";
+
+        switch (id) {
+          case "placeradio1":
+            place = "기숙사 식당";
+            break;
+          case "placeradio2":
+            place = "경술랭";
+            break;
+          case "placeradio3":
+            place = "E-스퀘어";
+            break;
           default:
-            place = '장소 없음'
+            place = "장소 없음";
         }
 
         $.ajax({
           type: "GET",
-          url: "/api/selectedMenu?place_give="+place ,
+          url: "/api/selectedMenu?place_give=" + place,
           data: {},
           success: function (response) {
-            if (response['result'] == 'success') {
-              console.log('식사 데이터 저장 완료')
+            if (response["result"] == "success") {
+              console.log("식사 데이터 저장 완료");
             } else {
-              console.log('식사 데이터 저장 실패')
+              console.log("식사 데이터 저장 실패");
             }
-          }
-        })
+          },
+        });
       }
     </script>
   </head>
@@ -80,11 +127,52 @@
   </style>
   <body>
     <div class="container">
+      <!-- 오늘 날짜 -->
+      <div class="row">
+        <h1 class="display-3">{{ template_date }}</h1>
+      </div>
+      <br /><br /><br />
+      <!--점심 / 저녁-->
+      <div class="container text-center">
+        <div class="row justify-content-start">
+          <div class="col-12">
+            <div
+              class="btn-group"
+              role="group"
+              aria-label="Basic radio toggle button group"
+            >
+              <input
+                type="radio"
+                class="btn-check"
+                name="btnradio"
+                id="btnradio1"
+                autocomplete="off"
+                checked
+                onclick="checkLunch()"
+              />
+              <label class="btn btn-outline-success" for="btnradio1">
+                &nbsp;&nbsp;&nbsp;&nbsp;점심&nbsp;&nbsp;&nbsp;&nbsp;
+              </label>
+
+              <input
+                type="radio"
+                class="btn-check"
+                name="btnradio"
+                id="btnradio2"
+                autocomplete="off"
+                onclick="checkDinner()"
+              />
+              <label class="btn btn-outline-success" for="btnradio2">
+                &nbsp;&nbsp;&nbsp;&nbsp;저녁&nbsp;&nbsp;&nbsp;&nbsp;
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br /><br /><br />
       <div class="row">
         <!--메뉴판 열-->
         <div class="col">
-          <h1 class="display-3">{{ template_date }}</h1>
-
           <!--경기드림타워-->
           <div class="form-check">
             <input
@@ -97,36 +185,10 @@
               <h3>경기드림타워</h3>
             </label>
           </div>
-
-          <div
-            class="btn-group"
-            role="group"
-            aria-label="Basic radio toggle button group"
-          >
-            <input
-              type="radio"
-              class="btn-check"
-              name="btnradio"
-              id="btnradio1"
-              autocomplete="off"
-              checked
-              onclick="checkLunch()"
-            />
-            <label class="btn btn-outline-primary" for="btnradio1">점심</label>
-
-            <input
-              type="radio"
-              class="btn-check"
-              name="btnradio"
-              id="btnradio2"
-              autocomplete="off"
-              onclick="checkDinner()"
-            />
-            <label class="btn btn-outline-primary" for="btnradio2">저녁</label>
-          </div>
           <div id="dt_menu">
             <p>{{ template_dt_lunch_menu }}</p>
           </div>
+          <br />
 
           <!--경슐랭-->
           <div class="form-check">
@@ -143,6 +205,7 @@
           </div>
 
           <p>{{ template_kcl_menu }}</p>
+          <br />
 
           <!--이스퀘어-->
           <div class="form-check">
@@ -160,17 +223,36 @@
 
           <p>{{ template_esq_menu }}</p>
         </div>
+        <br />
 
         <!--이름판 열-->
         <div class="col">
-          <h3>경기드림타워</h3>
-          {% for ps in template_dtpeople %} {{ ps }} &nbsp; &nbsp; {% endfor %}
+          <div class="row">
+            <h3>경기드림타워</h3>
+            <div id="dt_people">
+              {% for ps in template_dt_lunch_people %} {{ ps }} &nbsp; &nbsp; {%
+              endfor %}
+            </div>
+          </div>
+          <br />
 
-          <h3>경슐랭</h3>
-          {% for ps in template_kclpeople %} {{ ps }} &nbsp; &nbsp; {% endfor %}
+          <div class="row">
+            <h3>경슐랭</h3>
+            <div id="kcl_people">
+              {% for ps in template_kcl_lunch_people %} {{ ps }} &nbsp; &nbsp;
+              {% endfor %}
+            </div>
+          </div>
+          <br />
 
-          <h3>E-스퀘어</h3>
-          {% for ps in template_esqpeople %} {{ ps }} &nbsp; &nbsp; {% endfor %}
+          <div class="row">
+            <h3>E-스퀘어</h3>
+            <div id="esq_people">
+              {% for ps in template_esq_lunch_people %} {{ ps }} &nbsp; &nbsp;
+              {% endfor %}
+            </div>
+          </div>
+          <br />
         </div>
       </div>
     </div>
