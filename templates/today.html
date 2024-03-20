@@ -194,7 +194,7 @@
       <a href="/" class="logo">
         <img src="../static/images/logo.svg" alt="정글밥" />
       </a>
-      <a href="mypage" class="userName">{{template_userName}}</a>
+      <a onclick="window.open('http://localhost:5000/mypage','학식 지도', 'width=750px ,height=750px')" class="userName">{{template_userName}}</a>
       <!-- 오늘 날짜 -->
       <div class="date">
         <h1 class="display-3">{{ template_date }}</h1>
@@ -333,7 +333,7 @@
           </div>
           <!--맵 아이콘-->
           <div class="row">
-            <a href="map" class="logo submit-btn">
+            <a class="logo submit-btn" onclick="window.open('http://localhost:5000/map','학식 지도', 'width=738px ,height=738px')">
               <img src="../static/images/icon_placeholder.png" width="50px" alt="지도" />
             </a>
           </div>
