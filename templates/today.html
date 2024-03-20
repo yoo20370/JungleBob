@@ -197,7 +197,6 @@
                   autocomplete="off"
                   checked
                   onclick="checkLunch()"
-                  style="background-image: url('../static/images/sun.svg')"
                 />
                 <label class="btn btn-outline-success" for="btnradio1">
                   &nbsp;&nbsp;&nbsp;&nbsp;점심&nbsp;&nbsp;&nbsp;&nbsp;
@@ -231,120 +230,141 @@
       <br /><br /><br />
 
       <!-- bulma 사용 메뉴 card -->
-      <div class="card">
-        <div class="card-content">
-          <div class="card-header">
-            <label class="form-check-label" for="flexRadioDefault1">
-              <span class="title">경기드림타워</span>
-              <span class="subtitle"> Jeff Atwood </span>
-            </label>
-            <input
-              class="form-check-input"
-              type="radio"
-              name="flexRadioDefault"
-              id="placeradio1"
-            />
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-content">
-          <div class="card-header" style="border-bottom: 2px solid #198754">
-            <span class="title">경기드림타워</span>
-          </div>
-        </div>
-      </div>
-
       <div class="row">
         <!--메뉴판 열-->
         <div class="col">
           <!--경기드림타워-->
-          <div class="form-check">
-            <input
-              class="form-check-input"
-              type="radio"
-              name="flexRadioDefault"
-              id="placeradio1"
-            />
-            <label class="form-check-label" for="flexRadioDefault1">
-              <h3>경기드림타워</h3>
-            </label>
+          <div class="card">
+            <div class="card-content">
+              <div class="card-header">
+                <label class="form-check-label" for="flexRadioDefault1">
+                  <span class="title">경기드림타워</span>
+                  <span class="subtitle"> 점심(11:00~13:00), 저녁(17:00~19:00) </span>
+                </label>
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="flexRadioDefault"
+                  id="placeradio1"
+                />
+              </div>
+              <div class="card-flex">
+                <figure class="image is-128x128">
+                  <img src="https://bulma.io/images/placeholders/256x256.png" />
+                </figure>
+                <div id="dt_menu">
+                  <p>{{ template_dt_lunch_menu }}</p>
+                </div>
+              </div>
+            </div>
           </div>
-          <div id="dt_menu">
-            <p>{{ template_dt_lunch_menu }}</p>
-          </div>
-          <br />
 
           <!--경슐랭-->
-          <div class="form-check">
-            <input
-              class="form-check-input"
-              type="radio"
-              name="flexRadioDefault"
-              id="placeradio2"
-              checked
-            />
-            <label class="form-check-label" for="flexRadioDefault2">
-              <h3>경슐랭</h3>
-            </label>
-          </div>
+          <div class="card">
+            <div class="card-content">
+              <div class="card-header">
+                <label class="form-check-label" for="flexRadioDefault1">
+                  <span class="title">경슐랭</span>
+                  <span class="subtitle"> 10:30~19:00 (마지막 주문 18:30) </span>
+                </label>
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="flexRadioDefault"
+                  id="placeradio2"
+                />
+              </div>
+              <div class="card-flex">
+                <figure class="image is-128x128">
+                  <img src="https://bulma.io/images/placeholders/256x256.png" />
+                </figure>
+                <div id="dt_menu">
+                  <p>{{ template_kcl_menu }}</p>
+                </div>
+              </div>
 
-          <p>{{ template_kcl_menu }}</p>
-          <br />
+            </div>
+          </div>
 
           <!--이스퀘어-->
-          <div class="form-check">
-            <input
-              class="form-check-input"
-              type="radio"
-              name="flexRadioDefault"
-              id="placeradio3"
-              checked
-            />
-            <label class="form-check-label" for="flexRadioDefault2"
-              ><h3>E-스퀘어</h3>
-            </label>
+          <div class="card">
+            <div class="card-content">
+              <div class="card-header">
+                <label class="form-check-label" for="flexRadioDefault1">
+                  <span class="title">E-스퀘어</span>
+                  <span class="subtitle"> 07:30~20:30 (마지막 주문 19:30) </span>
+                </label>
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="flexRadioDefault"
+                  id="placeradio3"
+                />
+              </div>
+              <div class="card-flex">
+                <figure class="image is-128x128">
+                  <img src="https://bulma.io/images/placeholders/256x256.png" />
+                </figure>
+                <div id="dt_menu">
+                  <p>{{ template_esq_menu }}</p>
+                </div>
+              </div>
           </div>
-
-          <p>{{ template_esq_menu }}</p>
+          </div>
         </div>
-        <br />
 
         <!--이름판 열-->
         <div class="col">
-          <div class="row">
-            <h3>경기드림타워</h3>
-            <div id="dt_people">
-              {% for ps in template_dt_lunch_people %} {{ ps }} &nbsp; &nbsp; {%
-              endfor %}
-            </div>
-          </div>
-          <br />
 
-          <div class="row">
-            <h3>경슐랭</h3>
-            <div id="kcl_people">
-              {% for ps in template_kcl_lunch_people %} {{ ps }} &nbsp; &nbsp;
-              {% endfor %}
+            <div class="card">
+            <div class="card-content">
+              <div class="card-header">
+                <span class="title">경기드림타워</span>
+              </div>
+              <div id="dt_people">
+                {% for ps in template_dt_lunch_people %} {{ ps }} &nbsp; &nbsp; {%
+                endfor %}
+              </div>
             </div>
-          </div>
-          <br />
 
-          <div class="row">
-            <h3>E-스퀘어</h3>
-            <div id="esq_people">
-              {% for ps in template_esq_lunch_people %} {{ ps }} &nbsp; &nbsp;
-              {% endfor %}
+        </div>
+
+
+        <div class="col">
+
+            <div class="card">
+            <div class="card-content">
+              <div class="card-header">
+                <span class="title">경슐랭</span>
+              </div>
+              <div id="kcl_people">
+                {% for ps in template_kcl_lunch_people %} {{ ps }} &nbsp; &nbsp;
+                {% endfor %}
+              </div>
             </div>
-          </div>
-          <br />
+
+        </div>
+
+        <div class="col">
+
+            <div class="card">
+            <div class="card-content">
+              <div class="card-header">
+                <span class="title">E-스퀘어</span>
+              </div>
+              <div id="esq_people">
+                {% for ps in template_esq_lunch_people %} {{ ps }} &nbsp; &nbsp;
+                {% endfor %}
+            </div>
+            </div>
+
         </div>
       </div>
 
       <div class="row">
-        <button onclick="selectedMenu()">제출</button>
+        <button onclick="selectedMenu()" class="btn btn-outline-success submit-btn">제출</button>
       </div>
+
     </div>
   </body>
 </html>
