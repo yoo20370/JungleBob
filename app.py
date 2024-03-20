@@ -116,7 +116,6 @@ def today() :
     kclpeople = db.logs.find({"place": "경슐랭", "lunch": "true", "date": date})
     kcl_lunch_list = []
     for p in kclpeople:
-        print(p)
         kcl_lunch_list.append(p['name'])
     ## 저녁
     kclpeople = db.logs.find({"place": "경슐랭", "lunch": "false", "date": date})
