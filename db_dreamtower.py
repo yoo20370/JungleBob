@@ -1,8 +1,16 @@
 import requests
 from bs4 import BeautifulSoup
 
+# IP
+from var import IP
+
+# MongoDB ID/PW
+from var import ID
+from var import PW
+from var import DBPORT
+
 from pymongo import MongoClient 
-client = MongoClient('localhost',27017)
+client = MongoClient('mongodb://' + ID + ':' + PW + '@' + IP, DBPORT)
 db = client.jungleBob
 menus = db["menus"]
 
