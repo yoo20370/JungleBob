@@ -58,10 +58,10 @@ def getDate():
 def today() : 
 
     # 토큰 여부 확인
-    # result = tokenCheck()
-    # if result == False :
-    #     return redirect('http://localhost:' + str(PORT) + '/login')
-    # print(result)
+    result = tokenCheck()
+    if result == False :
+        return redirect('http://localhost:' + str(PORT) + '/login')
+    print(result)
 
 
     ######### 금일 메뉴 데이터
@@ -176,29 +176,39 @@ def signInPost() :
 # 로그인 창 띄우기 
 @app.route("/login", methods=['GET'])
 def loginGet() :
+    # 토큰 여부 확인
+    result = tokenCheck()
+    if result != False :
+        return redirect('http://localhost:' + str(PORT) + '/today')
+    print(result)
+
     return render_template("login.html")
 
 # 로그인 시도 
 @app.route("/login", methods=['POST'])
 def loginPost() :
-    # 토큰 가져오기 
-    # accessToken = request.cookies.get('access_token')
     
-    # try :
-    #     if accessToken : 
-    #         payload = jwt.decode(accessToken, SECRET_KEY, "HS256")
-    #         if int(payload['time']) < int(time.time() * 1000) : 
-    #             print('토큰 만료')
-    #             pass
-    #         else :
-    #             print('토큰 유효')
-    #             return jsonify({"msg":"token auth success"})
-    # except jwt.exceptions.DecodeError :
-    #     pass
-        
-    # 2. 토큰이 없다면 로그인을 시도하는 사람이므로 로그인 ID, PW를 확인 후 토큰을 발행한다.
     userId = request.form['userId'].strip()
     userPw = request.form['userPw'].strip()
+
+    # 토큰 가져오기 
+    accessToken = request.cookies.get('access_token')
+    
+    try :
+        if accessToken : 
+            payload = jwt.decode(accessToken, SECRET_KEY, "HS256")
+            if int(payload['time']) < int(time.time() * 1000) : 
+                print('토큰 만료')
+                pass
+            else :
+                if userId == payload['id'] :
+                    print('토큰 유효')
+                    return jsonify({"msg":"token auth success"})
+                pass
+    except jwt.exceptions.DecodeError :
+        pass
+        
+    # 2. 토큰이 없다면 로그인을 시도하는 사람이므로 로그인 ID, PW를 확인 후 토큰을 발행한다.
 
     global userData
     
@@ -213,7 +223,7 @@ def loginPost() :
     
     payload = {
         # 토큰 유효 시간 1시간 -  Unix 타임 스탬프 사용
-        'time': int(time.time() * 1000) + 10 * 1000, 
+        'time': int(time.time() * 1000) + 60 * 1000, 
         'id':userData['id'],
         'name':userData['name']
     }

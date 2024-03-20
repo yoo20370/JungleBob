@@ -13,40 +13,43 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <!-- Bootstrap 포함. -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link
-      href="https://getbootstrap.com/docs/5.3/assets/css/docs.css"
-      rel="stylesheet"
-    />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet" />
 
     <!-- Bulma 포함 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <style>
-        .title-container{
+        .ibm-plex sans kr-regular {
+            font-family: "IBM Plex Sans KR", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        .title-container {
             font-size: 50px;
-            padding-top : 50px;
+            padding-top: 50px;
             margin-bottom: 0px;
             text-align: center;
         }
-        .main-container{
-            width : 600px;
-            margin : 0px auto;
+
+        .main-container {
+            width: 600px;
+            margin: 0px auto;
             padding-bottom: 100%;
         }
+
         .name-container {
             text-align: center;
-            font-size:35px;
-            padding : 20px 0px;
+            font-size: 35px;
+            padding: 20px 0px;
         }
+
         .date-container {
             text-align: center;
-            font-size:35px;
+            font-size: 35px;
             font-weight: bold;
-            color:rgb(64,133,88);
-            padding : 20px 0px;
+            color: rgb(64, 133, 88);
+            padding: 20px 0px;
         }
 
         .time-container {
@@ -54,94 +57,100 @@
         }
 
         .time-table {
-            width : 600px;
+            width: 600px;
             margin: 0px auto;
-            width:50%;
-            padding : 20px 0px;
+            width: 50%;
+            padding: 20px 0px;
         }
 
         .btn {
-            height:80px;
-            width:200px;
+            height: 80px;
+            width: 200px;
             font-size: 35px;
-            margin-bottom:20px;
+            margin-bottom: 20px;
         }
 
-        .time-table > tr > td{
+        .time-table>tr>td {
             text-align: center;
-            font-size:35px;
-            text-align:center;
-            padding : 10px 0px;
-            
+            font-size: 35px;
+            text-align: center;
+            padding: 10px 0px;
+
         }
+
         .card {
             border-radius: 10px;
         }
+
         .card-header {
-            border-bottom : 2px solid #198754; 
+            border-bottom: 2px solid #198754;
         }
+
         .mealTime {
-            font-size:35px;
+            font-size: 35px;
         }
+
         .meal_table {
-            width:200px;
+            width: 200px;
             margin: 0px auto;
         }
+
         .menu {
-            padding:30px 0px;
+            padding: 30px 0px;
             margin-top: 10px;
         }
     </style>
     <script>
-        function changeTime1(){
-            if($('#lunch').attr('style') == 'font-weight:normal;' ){
+        function changeTime1() {
+            if ($('#lunch').attr('style') == 'font-weight:normal;') {
                 $('#dt_menu').empty()
-                let menu = 
-                `
+                let menu =
+                    `
                 <p>
                     {{ template_lunch_menu }}
                 </p>
-                `   
+                `
                 $('#dt_menu').append(`${menu}`)
                 $('#foodCourt').empty()
-                let place = 
-                `
+                let place =
+                    `
                 <p>
                     {{ template_lunch_place }}
                 </p>
-                `   
+                `
                 $('#foodCourt').append(`${place}`)
-                $('#lunch').attr('style','font-weight:bold;')
-                $('#dinner').attr('style','font-weight:normal;')
+                $('#lunch').attr('style', 'font-weight:bold;')
+                $('#dinner').attr('style', 'font-weight:normal;')
                 lunch = 0;
-            } 
+            }
         }
 
-        function changeTime2(){
-            if($('#dinner').attr('style') == 'font-weight:normal;' ){
+        function changeTime2() {
+            if ($('#dinner').attr('style') == 'font-weight:normal;') {
                 $('#dt_menu').empty()
-                let menu = 
-                `
+                let menu =
+                    `
                 <p>
                     {{ template_dinner_menu }}
                 </p>
-                `   
+                `
                 $('#dt_menu').append(`${menu}`)
                 $('#foodCourt').empty()
-                let place = 
-                `
+                let place =
+                    `
                 <p>
                     {{ template_dinner_place }}
                 </p>
-                `   
+                `
                 $('#foodCourt').append(`${place}`)
-                $('#dinner').attr('style','font-weight:bold;')
-                $('#lunch').attr('style','font-weight:normal;')
+                $('#dinner').attr('style', 'font-weight:bold;')
+                $('#lunch').attr('style', 'font-weight:normal;')
             }
-            
+
         }
     </script>
 </head>
+
 <body style="background-color: #f8f8f8;">
     <div class="title-container">
         <h1>어제 먹은 정글밥 </h1>
@@ -156,7 +165,7 @@
         <div class="time-container">
             <table class="meal_table">
                 <tr>
-                    <td class="mealTime lunch" >
+                    <td class="mealTime lunch">
                         <button class="btn btn-light"id="lunch" onclick="changeTime1()"  style="font-weight:bold;">점심</button>
                     </td>
                     <td class="mealTime dinner">
@@ -169,24 +178,25 @@
             <div class="card-content">
                 <div class="card-header">
                     <label class="form-check-label" for="flexRadioDefault1">
-                      <span class="title" id="foodCourt">{{ template_lunch_place }}</span>
-                      <span class="subtitle">
-                      </span>
+                        <span class="title" id="foodCourt">{{ template_lunch_place }}</span>
+                        <span class="subtitle">
+                        </span>
                     </label>
-                  </div>
-              <div>
-                <div class="form-check">
-                    <label class="form-check-label" for="flexRadioDefault1">
-                     
-                    </label>
-                  </div>
-                  <div class='menu' id="dt_menu">
-                    <p>{{ template_lunch_menu }}</p>
-                  </div>
-                  <br/>
-              </div>
+                </div>
+                <div>
+                    <div class="form-check">
+                        <label class="form-check-label" for="flexRadioDefault1">
+
+                        </label>
+                    </div>
+                    <div class='menu' id="dt_menu">
+                        <p>{{ template_lunch_menu }}</p>
+                    </div>
+                    <br />
+                </div>
             </div>
         </div>
     </div>
 </body>
+
 </html>
