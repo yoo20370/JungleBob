@@ -14,7 +14,7 @@ db = client.jungleBob
 SECRET_KEY = "jungleBob"
 
 # Port 번호
-PORT = 5001
+PORT = 5000
 
 # Global 변수
 global userData
@@ -232,13 +232,23 @@ def selectedMenu() :
     date = getDate()
 
     name = userData['name']
-    logs_find_user = db.logs.find_one({'name': name})
 
-    if logs_find_user != None and logs_find_user['name'] == name:
-        db.logs.delete_one({'name': name})
-        return print('유저 데이터 삭제 성공')
+    if lunch == 'true':
+        logs_lunch_user = db.logs.find_one({'name': name, 'lunch': 'true'})
+
+        if logs_lunch_user != None and logs_lunch_user['name'] == name:
+            db.logs.delete_one({'name': name, 'lunch': 'true'})
+            print('점심 유저 데이터 삭제 성공')
+        else:
+            print('점심 유저 데이터 삭제 실패')
     else:
-        return print('유저 데이터 삭제 실패')
+        logs_dinner_user = db.logs.find_one({'name': name, 'lunch': 'false'})
+
+        if logs_dinner_user != None and logs_dinner_user['name'] == name:
+            db.logs.delete_one({'name': name, 'lunch': 'false'})
+            print('점심 유저 데이터 삭제 성공')
+        else:
+            print('점심 유저 데이터 삭제 실패')
 
     result = db.logs.insert_one({'name': name,
                                  'lunch': lunch,
