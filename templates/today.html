@@ -7,8 +7,14 @@
     <title>JungleBob</title>
 
     <!-- CSS 스타일 초기화 -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.2/reset.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reset-css@5.0.2/reset.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
 
     <!-- jQuery 포함 -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -24,12 +30,15 @@
     />
 
     <!-- Bulma 포함 -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
- 
-    <link rel="stylesheet" href="../static/css/today.css"/>
-    
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
+    />
+
+    <link rel="stylesheet" href="../static/css/today.css" />
+
     <script>
-      let lunch = true
+      let lunch = true;
 
       function checkLunch() {
         lunch = true;
@@ -75,11 +84,33 @@
         </p>
         `;
         $("#dt_menu").append(`${menu}`);
+
+        // 이름판 변경
+        // 경기드림타워
+        $("#dt_people").empty();
+        let ppl = `
+        {% for ps in template_dt_dinner_people %} {{ ps }} &nbsp; &nbsp; {% endfor %}
+        `;
+        $("#dt_people").append(`${ppl}`);
+
+        // 경술랭
+        $("#kcl_people").empty();
+        ppl = `
+        {% for ps in template_kcl_dinner_people %} {{ ps }} &nbsp; &nbsp; {% endfor %}
+        `;
+        $("#kcl_people").append(`${ppl}`);
+
+        // 이스퀘어
+        $("#esq_people").empty();
+        ppl = `
+        {% for ps in template_esq_dinner_people %} {{ ps }} &nbsp; &nbsp; {% endfor %}
+        `;
+        $("#esq_people").append(`${ppl}`);
       }
 
       function selectedMenu() {
-        let id = $('input[name="flexRadioDefault"]:checked').attr('id')
-        let place = ''
+        let id = $('input[name="flexRadioDefault"]:checked').attr("id");
+        let place = "";
 
         // 이름판 변경
         // 경기드림타워
@@ -124,9 +155,8 @@
 
         $.ajax({
           type: "GET",
-          url: '/api/selectedMenu',
-          data: {'place_give': place,
-              'lunch_give': lunch},
+          url: "/api/selectedMenu",
+          data: { place_give: place, lunch_give: lunch },
           success: function (response) {
             if (response["result"] == "success") {
               console.log("식사 데이터 저장 완료");
@@ -142,7 +172,7 @@
     <!-- Header -->
     <header>
       <a href="/" class="logo">
-        <img src="../static/images/logo.svg" alt="정글밥">
+        <img src="../static/images/logo.svg" alt="정글밥" />
       </a>
       <div class="userName">{{template_userName}}</div>
       <!-- 오늘 날짜 -->
@@ -156,78 +186,75 @@
       <div class="container text-center">
         <div class="row justify-content-start">
           <div class="col-12">
-              <section class="lunchOrDinner">
-                  <div class="lunch">
-                    <img src="../static/images/sun_black.svg" alt="점심">
-                    <input
-                      type="radio"
-                      class="btn-check"
-                      name="btnradio"
-                      id="btnradio1"
-                      autocomplete="off"
-                      checked
-                      onclick="checkLunch()"
-                      style="background-image: url('../static/images/sun.svg');"
-                    />
-                    <label class="btn btn-outline-success" for="btnradio1">
-                      &nbsp;&nbsp;&nbsp;&nbsp;점심&nbsp;&nbsp;&nbsp;&nbsp;
-                    </label>
-                  </div>
-                  <div class="dinner">
-                    <div>
-                      <img src="../static/images/moon_black.svg" alt="저녁">
-                    </div>
-                    <input
-                      type="radio"
-                      class="btn-check"
-                      name="btnradio"
-                      id="btnradio2"
-                      autocomplete="off"
-                      onclick="checkDinner()"
-                    />
-                    <label class="btn btn-outline-success" for="btnradio2">
-                      &nbsp;&nbsp;&nbsp;&nbsp;저녁&nbsp;&nbsp;&nbsp;&nbsp;
-                    </label>
-                  </div>
-              </section>
+            <section class="lunchOrDinner">
+              <div class="lunch">
+                <img src="../static/images/sun_black.svg" alt="점심" />
+                <input
+                  type="radio"
+                  class="btn-check"
+                  name="btnradio"
+                  id="btnradio1"
+                  autocomplete="off"
+                  checked
+                  onclick="checkLunch()"
+                  style="background-image: url('../static/images/sun.svg')"
+                />
+                <label class="btn btn-outline-success" for="btnradio1">
+                  &nbsp;&nbsp;&nbsp;&nbsp;점심&nbsp;&nbsp;&nbsp;&nbsp;
+                </label>
+              </div>
+              <div class="dinner">
+                <div>
+                  <img src="../static/images/moon_black.svg" alt="저녁" />
+                </div>
+                <input
+                  type="radio"
+                  class="btn-check"
+                  name="btnradio"
+                  id="btnradio2"
+                  autocomplete="off"
+                  onclick="checkDinner()"
+                />
+                <label class="btn btn-outline-success" for="btnradio2">
+                  &nbsp;&nbsp;&nbsp;&nbsp;저녁&nbsp;&nbsp;&nbsp;&nbsp;
+                </label>
+              </div>
+            </section>
             <div
               class="btn-group"
               role="group"
               aria-label="Basic radio toggle button group"
-            >
-            </div>
+            ></div>
           </div>
         </div>
       </div>
       <br /><br /><br />
 
-<!-- bulma 사용 메뉴 card -->
-<div class="card">
-  <div class="card-content">
-    <div class="card-header">
-      <label class="form-check-label" for="flexRadioDefault1">
-        <span class="title">경기드림타워</span>
-        <span class="subtitle">
-          Jeff Atwood
-        </span>
-      </label>
-      <input
-        class="form-check-input"
-        type="radio"
-        name="flexRadioDefault"
-        id="placeradio1"
-      />
-    </div>
-  </div>
-</div>
+      <!-- bulma 사용 메뉴 card -->
+      <div class="card">
+        <div class="card-content">
+          <div class="card-header">
+            <label class="form-check-label" for="flexRadioDefault1">
+              <span class="title">경기드림타워</span>
+              <span class="subtitle"> Jeff Atwood </span>
+            </label>
+            <input
+              class="form-check-input"
+              type="radio"
+              name="flexRadioDefault"
+              id="placeradio1"
+            />
+          </div>
+        </div>
+      </div>
 
-<div class="card">
-  <div class="card-content">
-    <div class="card-header" style="border-bottom: 2px solid #198754;">
-        <span class="title">경기드림타워</span>
-    </div>
-  </div>
-</div>
+      <div class="card">
+        <div class="card-content">
+          <div class="card-header" style="border-bottom: 2px solid #198754">
+            <span class="title">경기드림타워</span>
+          </div>
+        </div>
+      </div>
 
       <div class="row">
         <!--메뉴판 열-->

@@ -1,154 +1,162 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <!-- jquery -->
-    <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
-    <!-- 부트 스트랩  -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
-    
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: black;
-            color: #fff;
-        }
-        .container .login .inner {
-            width: 400px;
-            height: 400px;
-            margin: auto;
-            position: absolute;
-            margin-top: 300px;
-            left: 0;
-            right: 0;
-        }
-        .login .title {
-            text-align: left;
-            font-weight: 700;
-            font-size: 55px;
-            margin-bottom: 100px;
-        }
-        .login .login-form .id, .login-form .name , .login-form .password{
-            margin-bottom: 50px;
-            font-size: 25px;
-        }
-        .login .login-form .id input {
-            height: 60px;
-        }
-        .login .login-form .id .id_title , .login-form .name_title {
-            font-weight: 300;
-            margin-bottom: 10px;
-        }
-        .login .login-form  {
-            margin-bottom: 80px;
-            font-size: 25px;
-        }
-        .login .login-form .password .pw_title {
-            font-weight: 300;
-            margin-bottom: 10px;
-        }
-        .login .login-form .password input {
-            height: 60px;
-        }
-        .login .login-form .name .name_title {
-            font-weight: 300;
-            margin-bottom: 10px;
-        }
-        .login .login-form .name input {
-            height: 60px;
-        }
-        .login .login-form .sign-in-btn button {
-            width: 100%;
-            height: 60px;
-            font-size: 23px;
-            background-color: #00D67A;
-            border-style: none;
-            font-weight: 500; 
-        }
-        .login .login-form .sign-in-btn { 
-            
-            margin-top: 20px;
-            text-align: center;  
-        }
-        .login .login-form .sign-in-btn a {
-            text-decoration: none;
-            font-size: 23px; 
-            color: #fff;
-            font-weight: 500;  
-        }
-        .login .login-form .name {
-            margin-bottom: 80px;
-            font-size: 25px;
-        }
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+
+    <!-- Bootstrap 을 포함합니다. -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://getbootstrap.com/docs/5.3/assets/css/docs.css"
+      rel="stylesheet"
+    />
+
+    <style type="text/css">
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f8f8f8;
+        color: #747474;
+      }
+
+      .padding {
+        margin-top: 200px;
+      }
+
+      .top_margin {
+        margin-top: 100px;
+      }
+
+      .bottom_margin {
+        margin-bottom: 50px;
+      }
+
+      .icon_padding {
+        margin-left: 30px;
+        margin-top: 50px;
+      }
+
+      .idpw {
+        color: #747474;
+        margin-top: 30px;
+      }
+
+      .form_padding {
+        margin-left: 10px;
+        margin-right: 30px;
+      }
+
+      .btn_padding {
+        margin-top: 50px;
+      }
+
+      .align_text {
+        text-align: center;
+      }
+
+      a:link {
+        color: #747474;
+      }
+
+      a:visited {
+        color: #747474;
+      }
+
+      a:hover {
+        color: #198754;
+      }
     </style>
-</head>
-<script>
-    function signin(){
-        let signinID = $('#signinID').val()
-        let signinPW = $('#signinPW').val()
-        let signinName = $('#signName').val()
-        if(signinID == ''){
-            alert('아이디를 입력해주세요.')
-            return
-        }
-        if(signinPW == ''){
-            alert('비밀번호를 입력해주세요.')
-            return 
-        }
-        if(signinName == ''){
-            alert('이름을 입력해주세요.')
-            return 
-        }
+  </head>
+  <script>
+    function signin() {
+      let signinID = $("#signinID").val();
+      let signinPW = $("#signinPW").val();
+      let signinName = $("#signName").val();
+      if (signinID == "") {
+        alert("아이디를 입력해주세요.");
+        return;
+      }
+      if (signinPW == "") {
+        alert("비밀번호를 입력해주세요.");
+        return;
+      }
+      if (signinName == "") {
+        alert("이름을 입력해주세요.");
+        return;
+      }
 
-        $.ajax({
-            type: 'POST',
-            url : '/signIn',
-            data : {"signinID":signinID, "signinPW":signinPW, "signinName":signinName},
-            success : function(response){
-                if(response['msg'] == "Fail"){
-                    alert("중복된 아이디 입니다.")
-                    return 
-                } else {
-                    alert("가입이 완료되었습니다. ")
-                    window.location.href = '/today'
-                }
-            }
-        })
+      $.ajax({
+        type: "POST",
+        url: "/signIn",
+        data: {
+          signinID: signinID,
+          signinPW: signinPW,
+          signinName: signinName,
+        },
+        success: function (response) {
+          if (response["msg"] == "Fail") {
+            alert("중복된 아이디 입니다.");
+            return;
+          } else {
+            alert("가입이 완료되었습니다. ");
+            window.location.href = "/today";
+          }
+        },
+      });
     }
-</script>
-<body>
+  </script>
+  <body>
+    <!-- 회원 가입 -->
+    <div class="container w-25 justify-content-center align-items-center">
+      <div class="card text-white bg-white padding">
+        <img
+          class="icon_padding"
+          src="{{ url_for('static', filename='images/icon_junglebob.png') }}"
+          width="200px"
+        />
+        <div class="card-body justify-content-center">
+          <div class="row">
+            <div class="col">
+              <div class="row justify-content-center">
+                <form class="id">
+                  <div class="idpw">ID</div>
+                  <input type="text" class="form-control" id="signinID" />
+                </form>
+              </div>
+              <div class="row justify-content-center">
+                <form class="password">
+                  <div class="idpw">Password</div>
+                  <input type="password" class="form-control" id="signinPW" />
+                </form>
+              </div>
+              <div class="row justify-content-center">
+                <form class="name">
+                  <div class="idpw">Name</div>
+                  <input type="text" class="form-control" id="signName" />
+                </form>
+              </div>
 
-    <div class="container">
-        <div class="login left-bg">
-            <div class="inner">
-                <div class="title">
-                    <h1>Jungle Bap</h1>
+              <div class="row justify-content-center btn_padding">
+                <div class="col align_text">
+                  <button
+                    class="btn btn-outline-success bottom_margin"
+                    type="button"
+                    id="signInBtn"
+                    onclick="signin()"
+                  >
+                    회원가입
+                  </button>
                 </div>
-                <div class="login-form">
-                    <form class="id">
-                        <div class="id_title">ID</div>
-                        <input type="text" class="form-control" id="signinID">
-                    </form>
-                    <form class="password">
-                        <div class="pw_title">Password</div>
-                        <input type="password" class="form-control" id="signinPW">
-                    </form>
-                    <form class="name">
-                        <div class="name_title">Name</div>
-                        <input type="text" class="form-control" id="signName">
-                    </form>
-                    <div class="sign-in-btn">
-                        <button class="btn btn-primary" type="button" id="signInBtn" onclick="signin()">Sign in</button>
-                    </div>
-                </div>    
+              </div>
             </div>
+          </div>
         </div>
-        <div class="right-bg">
-
-        </div>
+      </div>
     </div>
-</body>
+  </body>
 </html>
