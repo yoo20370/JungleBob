@@ -100,36 +100,37 @@ def today() :
     
     # 경기드림타워 이름판
     ## 점심
-    dtpeople = db.log.find({"place": "경기드림타워", "lunch": True, "date": date})
+    dtpeople = db.logs.find({"place": "경기드림타워", "lunch": True, "date": date})
     dt_lunch_list = []
     for p in dtpeople:
         dt_lunch_list.append(p['name'])
     ## 저녁
-    dtpeople = db.log.find({"place": "경기드림타워", "lunch": False, "date": date})
+    dtpeople = db.logs.find({"place": "경기드림타워", "lunch": False, "date": date})
     dt_dinner_list = []
     for p in dtpeople:
         dt_dinner_list.append(p['name'])
     
     # 경슐랭 이름판
     ## 점심
-    kclpeople = db.log.find({"place": "경슐랭", "lunch": True, "date": date})
+    kclpeople = db.logs.find({"place": "경슐랭", "lunch": true, "date": date})
+    
     kcl_lunch_list = []
     for p in kclpeople:
         kcl_lunch_list.append(p['name'])
     ## 저녁
-    kclpeople = db.log.find({"place": "경슐랭", "lunch": False, "date": date})
+    kclpeople = db.logs.find({"place": "경슐랭", "lunch": False, "date": date})
     kcl_dinner_list = []
     for p in kclpeople:
         kcl_dinner_list.append(p['name'])
 
     # 이스퀘어 이름판
     ## 점심
-    esqpeople = db.log.find({"place": "이스퀘어", "lunch": True, "date": date})
+    esqpeople = db.logs.find({"place": "이스퀘어", "lunch": True, "date": date})
     esq_lunch_list = []
     for p in esqpeople:
         esq_lunch_list.append(p['name'])
     ## 저녁
-    esqpeople = db.log.find({"place": "이스퀘어", "lunch": False, "date": date})
+    esqpeople = db.logs.find({"place": "이스퀘어", "lunch": False, "date": date})
     esq_dinner_list = []
     for p in esqpeople:
         esq_dinner_list.append(p['name'])
@@ -179,19 +180,19 @@ def loginGet() :
 @app.route("/login", methods=['POST'])
 def loginPost() :
     # 토큰 가져오기 
-    accessToken = request.cookies.get('access_token')
+    # accessToken = request.cookies.get('access_token')
     
-    try :
-        if accessToken : 
-            payload = jwt.decode(accessToken, SECRET_KEY, "HS256")
-            if int(payload['time']) < int(time.time() * 1000) : 
-                print('토큰 만료')
-                pass
-            else :
-                print('토큰 유효')
-                return jsonify({"msg":"token auth success"})
-    except jwt.exceptions.DecodeError :
-        pass
+    # try :
+    #     if accessToken : 
+    #         payload = jwt.decode(accessToken, SECRET_KEY, "HS256")
+    #         if int(payload['time']) < int(time.time() * 1000) : 
+    #             print('토큰 만료')
+    #             pass
+    #         else :
+    #             print('토큰 유효')
+    #             return jsonify({"msg":"token auth success"})
+    # except jwt.exceptions.DecodeError :
+    #     pass
         
     # 2. 토큰이 없다면 로그인을 시도하는 사람이므로 로그인 ID, PW를 확인 후 토큰을 발행한다.
     userId = request.form['userId'].strip()

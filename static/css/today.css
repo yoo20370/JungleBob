@@ -115,11 +115,13 @@ header .date h1 {
   border-radius: 20px;
   overflow: hidden;
   margin-top: 24px;
+  width: 128px;
+  height: 128px;
 }
 .container .card .card-flex figure img{
   display: block;
-  width: 127px;
-  height: 127px;
+  width: 128px;
+  height: 128px;
 }
 .container .card .card-flex #dt_menu p {
   margin-top: 24px;
