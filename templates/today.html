@@ -38,6 +38,37 @@
         `;
         $("#dt_menu").append(`${menu}`);
       }
+      function selectedMenu() {
+        let id = event.target.id
+        let place = ''
+
+        switch(id) {
+          case 'placeradio1': 
+            place = '기숙사 식당'
+            break
+          case 'placeradio2':
+            place = '경술랭'
+            break
+          case 'placeradio3':
+            place = 'E-스퀘어'
+            break
+          default:
+            place = '장소 없음'
+        }
+
+        $.ajax({
+          type: "GET",
+          url: "/api/selectedMenu?place_give="+place ,
+          data: {},
+          success: function (response) {
+            if (response['result'] == 'success') {
+              console.log('식사 데이터 저장 완료')
+            } else {
+              console.log('식사 데이터 저장 실패')
+            }
+          }
+        })
+      }
     </script>
   </head>
   <body>
