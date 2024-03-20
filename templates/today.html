@@ -50,7 +50,7 @@
 
         $("#dt_menu").empty();
         let menu = `
-        <p>
+        <p style="width: 400px">
             {{ template_dt_lunch_menu }}
         </p>
         `;
@@ -60,21 +60,39 @@
         // 경기드림타워
         $("#dt_people").empty();
         let ppl = `
-        {% for ps in template_dt_lunch_people %} {{ ps }} &nbsp; &nbsp; {% endfor %}
+        {% for ps in template_dt_lunch_people %} 
+          {% if ps == template_userName %} 
+            <b style="color: #198754;"> {{ ps }} &nbsp; &nbsp; </b>
+          {% else %}
+            {{ ps }} &nbsp; &nbsp; 
+          {% endif %}
+        {% endfor %}
         `;
         $("#dt_people").append(`${ppl}`);
 
         // 경술랭
         $("#kcl_people").empty();
         ppl = `
-        {% for ps in template_kcl_lunch_people %} {{ ps }} &nbsp; &nbsp; {% endfor %}
+        {% for ps in template_kcl_lunch_people %}
+          {% if ps == template_userName %} 
+            <b style="color: #198754;"> {{ ps }} &nbsp; &nbsp; </b>
+          {% else %}
+            {{ ps }} &nbsp; &nbsp; 
+          {% endif %}
+        {% endfor %}
         `;
         $("#kcl_people").append(`${ppl}`);
 
         // 이스퀘어
         $("#esq_people").empty();
         ppl = `
-        {% for ps in template_esq_lunch_people %} {{ ps }} &nbsp; &nbsp; {% endfor %}
+        {% for ps in template_esq_lunch_people %} 
+          {% if ps == template_userName %} 
+            <b style="color: #198754;"> {{ ps }} &nbsp; &nbsp; </b>
+          {% else %}
+            {{ ps }} &nbsp; &nbsp; 
+          {% endif %}
+        {% endfor %}
         `;
         $("#esq_people").append(`${ppl}`);
       }
@@ -84,7 +102,7 @@
 
         $("#dt_menu").empty();
         let menu = `
-        <p>
+        <p style="width: 400px">
             {{ template_dt_dinner_menu }}
         </p>
         `;
@@ -96,7 +114,7 @@
         let ppl = `
         {% for ps in template_dt_dinner_people %}
           {% if ps == template_userName %} 
-            <b> {{ ps }} &nbsp; &nbsp; </b>
+            <b style="color: #198754;"> {{ ps }} &nbsp; &nbsp; </b>
           {% else %}
             {{ ps }} &nbsp; &nbsp; 
           {% endif %}
@@ -107,14 +125,26 @@
         // 경술랭
         $("#kcl_people").empty();
         ppl = `
-        {% for ps in template_kcl_dinner_people %} {{ ps }} &nbsp; &nbsp; {% endfor %}
+        {% for ps in template_kcl_dinner_people %} 
+          {% if ps == template_userName %} 
+            <b style="color: #198754;"> {{ ps }} &nbsp; &nbsp; </b>
+          {% else %}
+            {{ ps }} &nbsp; &nbsp; 
+          {% endif %}
+        {% endfor %}
         `;
         $("#kcl_people").append(`${ppl}`);
 
         // 이스퀘어
         $("#esq_people").empty();
         ppl = `
-        {% for ps in template_esq_dinner_people %} {{ ps }} &nbsp; &nbsp; {% endfor %}
+        {% for ps in template_esq_dinner_people %} 
+          {% if ps == template_userName %} 
+            <b style="color: #198754;"> {{ ps }} &nbsp; &nbsp; </b>
+          {% else %}
+            {{ ps }} &nbsp; &nbsp; 
+          {% endif %}
+        {% endfor %}
         `;
         $("#esq_people").append(`${ppl}`);
       }
@@ -152,6 +182,11 @@
         });
       }
     </script>
+    <style>
+      .card-header-shadow {
+        box-shadow: none;
+      }
+    </style>
   </head>
   <body>
     <!-- Header -->
@@ -221,10 +256,10 @@
           <!--경기드림타워-->
           <div class="card">
             <div class="card-content">
-              <div class="card-header">
+              <div class="card-header card-header-shadow">
                 <label class="form-check-label" for="flexRadioDefault1">
                   <span class="title">경기드림타워</span>
-                  <span class="subtitle"> 점심(11:00~13:00), 저녁(17:00~19:00) </span>
+                  <span class="subtitle" style="font-size: 15px; color: #747474"> &nbsp;&nbsp;점심(11:00~13:00), 저녁(17:00~19:00) </span>
                 </label>
                 <input
                   class="form-check-input"
@@ -235,10 +270,10 @@
               </div>
               <div class="card-flex">
                 <figure class="image is-128x128">
-                  <img src="https://bulma.io/images/placeholders/256x256.png" />
+                  <img src="../static/images/dt_image.png" width="128px" alt="경기드림타워" />
                 </figure>
                 <div id="dt_menu">
-                  <p>{{ template_dt_lunch_menu }}</p>
+                  <p style="width: 400px">{{ template_dt_lunch_menu }}</p>
                 </div>
               </div>
             </div>
@@ -247,10 +282,10 @@
           <!--경슐랭-->
           <div class="card">
             <div class="card-content">
-              <div class="card-header">
+              <div class="card-header card-header-shadow">
                 <label class="form-check-label" for="flexRadioDefault1">
                   <span class="title">경슐랭</span>
-                  <span class="subtitle"> 10:30~19:00 (마지막 주문 18:30) </span>
+                  <span class="subtitle" style="font-size: 15px; color: #747474"> &nbsp;&nbsp;10:30~19:00 (마지막 주문 18:30) </span>
                 </label>
                 <input
                   class="form-check-input"
@@ -261,7 +296,7 @@
               </div>
               <div class="card-flex">
                 <figure class="image is-128x128">
-                  <img src="https://bulma.io/images/placeholders/256x256.png" />
+                  <img src="../static/images/kcl_image.png" alt="경슐랭" />
                 </figure>
                 <div id="dt_menu">
                   <p>{{ template_kcl_menu }}</p>
@@ -274,10 +309,10 @@
           <!--이스퀘어-->
           <div class="card">
             <div class="card-content">
-              <div class="card-header">
+              <div class="card-header card-header-shadow">
                 <label class="form-check-label" for="flexRadioDefault1">
                   <span class="title">E-스퀘어</span>
-                  <span class="subtitle"> 07:30~20:30 (마지막 주문 19:30) </span>
+                  <span class="subtitle" style="font-size: 15px; color: #747474"> &nbsp;&nbsp;07:30~20:30 (마지막 주문 19:30) </span>
                 </label>
                 <input
                   class="form-check-input"
@@ -288,7 +323,7 @@
               </div>
               <div class="card-flex">
                 <figure class="image is-128x128">
-                  <img src="https://bulma.io/images/placeholders/256x256.png" />
+                  <img src="../static/images/esq_image.png" alt="이스퀘어" />
                 </figure>
                 <div id="dt_menu">
                   <p>{{ template_esq_menu }}</p>
@@ -303,12 +338,18 @@
 
             <div class="card">
             <div class="card-content">
-              <div class="card-header">
+              <div class="card-header card-header-shadow">
                 <span class="title">경기드림타워</span>
               </div>
+
               <div id="dt_people" class="logs_user">
-                {% for ps in template_dt_lunch_people %} {{ ps }} &nbsp; &nbsp; {%
-                endfor %}
+                {% for ps in template_dt_lunch_people %}
+                  {% if ps == template_userName %} 
+                    <b style="color: #198754;"> {{ ps }} &nbsp; &nbsp; </b>
+                  {% else %}
+                    {{ ps }} &nbsp; &nbsp; 
+                  {% endif %}
+                {% endfor %}
               </div>
             </div>
 
@@ -319,11 +360,17 @@
 
             <div class="card">
             <div class="card-content">
-              <div class="card-header">
+              <div class="card-header card-header-shadow">
                 <span class="title">경슐랭</span>
               </div>
+
               <div id="kcl_people" class="logs_user">
-                {% for ps in template_kcl_lunch_people %} {{ ps }} &nbsp; &nbsp;
+                {% for ps in template_kcl_lunch_people %}
+                  {% if ps == template_userName %} 
+                    <b style="color: #198754;"> {{ ps }} &nbsp; &nbsp; </b>
+                  {% else %}
+                    {{ ps }} &nbsp; &nbsp; 
+                  {% endif %}
                 {% endfor %}
               </div>
             </div>
@@ -334,11 +381,17 @@
 
             <div class="card">
             <div class="card-content">
-              <div class="card-header">
+              <div class="card-header card-header-shadow">
                 <span class="title">E-스퀘어</span>
               </div>
+
               <div id="esq_people" class="logs_user">
-                {% for ps in template_esq_lunch_people %} {{ ps }} &nbsp; &nbsp;
+                {% for ps in template_esq_lunch_people %}
+                  {% if ps == template_userName %} 
+                    <b style="color: #198754;"> {{ ps }} &nbsp; &nbsp; </b>
+                  {% else %}
+                    {{ ps }} &nbsp; &nbsp; 
+                  {% endif %}
                 {% endfor %}
             </div>
             </div>
