@@ -231,7 +231,16 @@ def selectedMenu() :
     lunch = request.args.get('lunch_give')
     date = getDate()
 
-    result = db.logs.insert_one({'name': userData['name'],
+    name = userData['name']
+    logs_find_user = db.logs.find_one({'name': name})
+
+    if logs_find_user != None and logs_find_user['name'] == name:
+        db.logs.delete_one({'name': name})
+        return print('유저 데이터 삭제 성공')
+    else:
+        return print('유저 데이터 삭제 실패')
+
+    result = db.logs.insert_one({'name': name,
                                  'lunch': lunch,
                                  'place': place,
                                  'date': date})
