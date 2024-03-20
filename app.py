@@ -14,7 +14,7 @@ db = client.jungleBob
 SECRET_KEY = "jungleBob"
 
 # Port 번호
-PORT = 5001
+PORT = 5000
 
 # Global 변수
 global userData
@@ -58,10 +58,10 @@ def getDate():
 def today() : 
 
     # 토큰 여부 확인
-    # result = tokenCheck()
-    # if result == False :
-    #     return redirect('http://localhost:' + str(PORT) + '/login')
-    # print(result)
+    result = tokenCheck()
+    if result == False :
+        return redirect('http://localhost:' + str(PORT) + '/login')
+    print(result)
 
 
     ######### 금일 메뉴 데이터
@@ -175,29 +175,39 @@ def signInPost() :
 # 로그인 창 띄우기 
 @app.route("/login", methods=['GET'])
 def loginGet() :
+    # 토큰 여부 확인
+    result = tokenCheck()
+    if result != False :
+        return redirect('http://localhost:' + str(PORT) + '/today')
+    print(result)
+
     return render_template("login.html")
 
 # 로그인 시도 
 @app.route("/login", methods=['POST'])
 def loginPost() :
-    # 토큰 가져오기 
-    # accessToken = request.cookies.get('access_token')
     
-    # try :
-    #     if accessToken : 
-    #         payload = jwt.decode(accessToken, SECRET_KEY, "HS256")
-    #         if int(payload['time']) < int(time.time() * 1000) : 
-    #             print('토큰 만료')
-    #             pass
-    #         else :
-    #             print('토큰 유효')
-    #             return jsonify({"msg":"token auth success"})
-    # except jwt.exceptions.DecodeError :
-    #     pass
-        
-    # 2. 토큰이 없다면 로그인을 시도하는 사람이므로 로그인 ID, PW를 확인 후 토큰을 발행한다.
     userId = request.form['userId'].strip()
     userPw = request.form['userPw'].strip()
+
+    # 토큰 가져오기 
+    accessToken = request.cookies.get('access_token')
+    
+    try :
+        if accessToken : 
+            payload = jwt.decode(accessToken, SECRET_KEY, "HS256")
+            if int(payload['time']) < int(time.time() * 1000) : 
+                print('토큰 만료')
+                pass
+            else :
+                if userId == payload['id'] :
+                    print('토큰 유효')
+                    return jsonify({"msg":"token auth success"})
+                pass
+    except jwt.exceptions.DecodeError :
+        pass
+        
+    # 2. 토큰이 없다면 로그인을 시도하는 사람이므로 로그인 ID, PW를 확인 후 토큰을 발행한다.
 
     global userData
     
@@ -212,7 +222,7 @@ def loginPost() :
     
     payload = {
         # 토큰 유효 시간 1시간 -  Unix 타임 스탬프 사용
-        'time': int(time.time() * 1000) + 10 * 1000, 
+        'time': int(time.time() * 1000) + 60 * 1000, 
         'id':userData['id'],
         'name':userData['name']
     }
@@ -280,8 +290,6 @@ def mypage() :
     lunch = db.logs.find_one({'name':name,'date':date,'lunch':True})
     dinner = db.logs.find_one({'name':name,'date':date, 'lunch':False})
 
-    print('a', lunch)
-    print('b', dinner)
     lunch_place = lunch['place']
     dinner_place = dinner['place']
 
@@ -296,10 +304,6 @@ def mypage() :
         dinner_menu = lunch_menu_rcd['menu']
         dinner_menu = dinner_menu.replace('\r\n', ', ')
         dinner_place = dinner_menu_rcd['place']
-    
-    print(lunch_menu,  dinner_menu, lunch_place, dinner_place)
-   
-
  
     if lunch != None :
         if lunch['place'] == '경슐랭' :
@@ -319,14 +323,23 @@ def mypage() :
         else : 
             pass
 
-    print('a',lunch_menu, 'b', dinner_menu, 'c', lunch_place, 'd', dinner_place)
+    day = datetime.today().weekday() ## 요일
+    if day == 0: date += "(월)"
+    elif day == 1: date += "(화)"
+    elif day == 2: date += "(수)"
+    elif day == 3: date += "(목)"
+    elif day == 4: date += "(금)"
+    elif day == 5: date += "(토)"
+    elif day == 6: date += "(일)"
 
+    print(day)
     return render_template('mypage.html', payload = result,
                            template_lunch_menu = lunch_menu,
                            template_lunch_place = lunch_place,
                            template_dinner_menu = dinner_menu,
                            template_dinner_place = dinner_place,
-                           template_my_name = result['name']
+                           template_my_name = result['name'],
+                           template_date = date
                            )
 
 if __name__ == "__main__" :
