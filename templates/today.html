@@ -19,7 +19,11 @@
 
     <title>JungleBob</title>
     <script>
+      let lunch = true
+
       function checkLunch() {
+        lunch = true;
+
         $("#dt_menu").empty();
         let menu = `
         <p>
@@ -30,6 +34,8 @@
       }
 
       function checkDinner() {
+        lunch = false;
+
         $("#dt_menu").empty();
         let menu = `
         <p>
@@ -38,8 +44,9 @@
         `;
         $("#dt_menu").append(`${menu}`);
       }
+
       function selectedMenu() {
-        let id = event.target.id
+        let id = $('input[name="flexRadioDefault"]:checked').attr('id')
         let place = ''
 
         switch(id) {
@@ -58,8 +65,9 @@
 
         $.ajax({
           type: "GET",
-          url: "/api/selectedMenu?place_give="+place ,
-          data: {},
+          url: '/api/selectedMenu',
+          data: {'place_give': place,
+              'lunch_give': lunch},
           success: function (response) {
             if (response['result'] == 'success') {
               console.log('식사 데이터 저장 완료')
@@ -172,6 +180,10 @@
           <h3>E-스퀘어</h3>
           {% for ps in template_esqpeople %} {{ ps }} &nbsp; &nbsp; {% endfor %}
         </div>
+      </div>
+
+      <div class="row">
+        <button onclick="selectedMenu()">제출</button>
       </div>
     </div>
   </body>

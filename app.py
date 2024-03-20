@@ -16,6 +16,9 @@ SECRET_KEY = "jungleBob"
 # Port 번호
 PORT = 5001
 
+# Global 변수
+global userData
+
 # 메인 페이지
 from datetime import datetime
 
@@ -172,6 +175,8 @@ def loginPost() :
     # 2. 토큰이 없다면 로그인을 시도하는 사람이므로 로그인 ID, PW를 확인 후 토큰을 발행한다.
     userId = request.form['userId'].strip()
     userPw = request.form['userPw'].strip()
+
+    global userData
     
     userData = db.users.find_one({"id":userId},{"_id":False})
 
@@ -200,7 +205,15 @@ def loginPost() :
 @app.route("/api/selectedMenu", methods=['GET'])
 def selectedMenu() :
     place = request.args.get('place_give')
-    result = db.logs.insert_one({'place': place})
+    print(place)
+    lunch = request.args.get('lunch_give')
+    print(lunch)
+    date = getDate()
+    print(date)
+    result = db.logs.insert_one({'name': userData['name'],
+                                 'lunch': lunch,
+                                 'place': place,
+                                 'date': date})
 
     if result.acknowledged:
         return jsonify({'result': 'success'})
