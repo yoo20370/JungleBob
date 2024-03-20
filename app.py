@@ -168,6 +168,18 @@ def loginPost() :
     reps.set_cookie('access_token', token)
     return reps
 
+#################################### 유저 식사 저장
+@app.route("/api/selectedMenu", methods=['GET'])
+def selectedMenu() :
+    place = request.args.get('place_give')
+    result = db.logs.insert_one({'place': place})
+
+    if result.acknowledged:
+        return jsonify({'result': 'success'})
+    else:
+        return jsonify({'result': 'fail'})
+
+
 #####################################
 
 if __name__ == "__main__" :
