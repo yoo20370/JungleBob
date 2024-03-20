@@ -70,6 +70,7 @@ header .date h1 {
 .lunchOrDinner {
   display: flex;
   justify-content: center;
+  margin-top: 70px;
 }
 .lunchOrDinner img {
   display: block;
@@ -123,6 +124,13 @@ header .date h1 {
 .container .card .card-flex #dt_menu p {
   margin-top: 24px;
   margin-left: 24px;
+}
+
+.col-left {
+  margin-right: 3px;
+}
+.col-right {
+  margin-left: 3px;
 }
 
 .row {

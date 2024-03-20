@@ -114,7 +114,7 @@
       }
 
       function selectedMenu() {
-        let id = event.target.id;
+        let id = $('input[name="flexRadioDefault"]:checked').attr('id');
         let place = "";
 
         switch (id) {
@@ -210,7 +210,7 @@
       <!-- bulma 사용 메뉴 card -->
       <div class="row">
         <!--메뉴판 열-->
-        <div class="col">
+        <div class="col col-left">
           <!--경기드림타워-->
           <div class="card">
             <div class="card-content">
@@ -292,7 +292,7 @@
         </div>
 
         <!--이름판 열-->
-        <div class="col">
+        <div class="col col-right">
 
             <div class="card">
             <div class="card-content">
