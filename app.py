@@ -16,6 +16,9 @@ SECRET_KEY = "jungleBob"
 # Port 번호
 PORT = 5001
 
+# Global 변수
+global userData
+
 # 메인 페이지
 from datetime import datetime
 
@@ -137,7 +140,8 @@ def today() :
                            template_kcl_menu = kcl_menu, template_esq_menu = esq_menu,
                            template_dt_lunch_people = dt_lunch_list, template_dt_dinner_people = dt_dinner_list, 
                            template_kcl_lunch_people = kcl_lunch_list, template_kcl_dinner_people = kcl_dinner_list, 
-                           template_esq_lunch_people = esq_lunch_list, template_esq_dinner_people = esq_dinner_list)
+                           template_esq_lunch_people = esq_lunch_list, template_esq_dinner_people = esq_dinner_list,
+                           template_userName = userData['name'])
 
 
 #################################### 회원가입 
@@ -192,6 +196,8 @@ def loginPost() :
     # 2. 토큰이 없다면 로그인을 시도하는 사람이므로 로그인 ID, PW를 확인 후 토큰을 발행한다.
     userId = request.form['userId'].strip()
     userPw = request.form['userPw'].strip()
+
+    global userData
     
     userData = db.users.find_one({"id":userId},{"_id":False})
 
@@ -220,7 +226,13 @@ def loginPost() :
 @app.route("/api/selectedMenu", methods=['GET'])
 def selectedMenu() :
     place = request.args.get('place_give')
-    result = db.logs.insert_one({'place': place})
+    lunch = request.args.get('lunch_give')
+    date = getDate()
+
+    result = db.logs.insert_one({'name': userData['name'],
+                                 'lunch': lunch,
+                                 'place': place,
+                                 'date': date})
 
     if result.acknowledged:
         return jsonify({'result': 'success'})
