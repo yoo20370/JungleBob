@@ -4,51 +4,199 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <!-- jquery -->
-    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 
-    <!-- 구글 폰트 -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR&display=swap"
-      rel="stylesheet"
-    />
+    <!-- CSS 스타일 초기화 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.2/reset.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
 
-    <!-- 부트 스트랩  -->
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
-      integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N"
-      crossorigin="anonymous"
-    />
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
-      crossorigin="anonymous"
-    ></script>
+    <!-- jQuery 포함 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Bootstrap 포함. -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet" />
+
+    <!-- Bulma 포함 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <style>
-      body {
-        font-family: "IBM Plex Sans KR", sans-serif;
-      }
+        .ibm-plex sans kr-regular {
+            font-family: "IBM Plex Sans KR", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+        }
 
-      .orbit-regular {
-        font-family: "Orbit", sans-serif;
-        font-weight: 400;
-        font-style: normal;
-      }
+        .title-container {
+            font-size: 50px;
+            padding-top: 50px;
+            margin-bottom: 0px;
+            text-align: center;
+        }
+
+        .main-container {
+            width: 600px;
+            margin: 0px auto;
+            padding-bottom: 100%;
+        }
+
+        .name-container {
+            text-align: center;
+            font-size: 35px;
+            padding: 20px 0px;
+        }
+
+        .date-container {
+            text-align: center;
+            font-size: 35px;
+            font-weight: bold;
+            color: rgb(64, 133, 88);
+            padding: 20px 0px;
+        }
+
+        .time-container {
+            padding: 20px 0px;
+        }
+
+        .time-table {
+            width: 600px;
+            margin: 0px auto;
+            width: 50%;
+            padding: 20px 0px;
+        }
+
+        .btn {
+            height: 80px;
+            width: 200px;
+            font-size: 35px;
+            margin-bottom: 20px;
+        }
+
+        .time-table>tr>td {
+            text-align: center;
+            font-size: 35px;
+            text-align: center;
+            padding: 10px 0px;
+
+        }
+
+        .card {
+            border-radius: 10px;
+        }
+
+        .card-header {
+            border-bottom: 2px solid #198754;
+        }
+
+        .mealTime {
+            font-size: 35px;
+        }
+
+        .meal_table {
+            width: 200px;
+            margin: 0px auto;
+        }
+
+        .menu {
+            padding: 30px 0px;
+            margin-top: 10px;
+        }
     </style>
-  </head>
+    <script>
+        function changeTime1() {
+            if ($('#lunch').attr('style') == 'font-weight:normal;') {
+                $('#dt_menu').empty()
+                let menu =
+                    `
+                <p>
+                    {{ template_lunch_menu }}
+                </p>
+                `
+                $('#dt_menu').append(`${menu}`)
+                $('#foodCourt').empty()
+                let place =
+                    `
+                <p>
+                    {{ template_lunch_place }}
+                </p>
+                `
+                $('#foodCourt').append(`${place}`)
+                $('#lunch').attr('style', 'font-weight:bold;')
+                $('#dinner').attr('style', 'font-weight:normal;')
+                lunch = 0;
+            }
+        }
 
-  <body>
-    <div class="main-container">
-      <div class="name-container"></div>
-      <div class="date-container"></div>
-      <div class="lunch-container"></div>
-      <div class="dinner-container"></div>
+        function changeTime2() {
+            if ($('#dinner').attr('style') == 'font-weight:normal;') {
+                $('#dt_menu').empty()
+                let menu =
+                    `
+                <p>
+                    {{ template_dinner_menu }}
+                </p>
+                `
+                $('#dt_menu').append(`${menu}`)
+                $('#foodCourt').empty()
+                let place =
+                    `
+                <p>
+                    {{ template_dinner_place }}
+                </p>
+                `
+                $('#foodCourt').append(`${place}`)
+                $('#dinner').attr('style', 'font-weight:bold;')
+                $('#lunch').attr('style', 'font-weight:normal;')
+            }
+
+        }
+    </script>
+</head>
+
+<body style="background-color: #f8f8f8;">
+    <div class="title-container">
+        <h1>어제 먹은 정글밥 </h1>
     </div>
+    <div class="main-container">
+        <div class="name-container">
+            <span> {{ template_my_name }} 님</span>
+        </div>
+        <div class="date-container">
+            <span> {{ template_date }} </span>
+        </div>
+        <div class="time-container">
+            <table class="meal_table">
+                <tr>
+                    <td class="mealTime lunch">
+                        <button class="btn btn-light"id="lunch" onclick="changeTime1()"  style="font-weight:bold;">점심</button>
+                    </td>
+                    <td class="mealTime dinner">
+                        <button class="btn btn-light" id="dinner" onclick="changeTime2()" style="font-weight:normal;">저녁</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="card">
+            <div class="card-content">
+                <div class="card-header">
+                    <label class="form-check-label" for="flexRadioDefault1">
+                        <span class="title" id="foodCourt">{{ template_lunch_place }}</span>
+                        <span class="subtitle">
+                        </span>
+                    </label>
+                </div>
+                <div>
+                    <div class="form-check">
+                        <label class="form-check-label" for="flexRadioDefault1">
 
-    {{ template_lunch_menu }} {{ template_lunch_place }} {{ template_dinner_menu
-    }} {{ template_dinner_place }}
-  </body>
+                        </label>
+                    </div>
+                    <div class='menu' id="dt_menu">
+                        <p>{{ template_lunch_menu }}</p>
+                    </div>
+                    <br />
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
 </html>
