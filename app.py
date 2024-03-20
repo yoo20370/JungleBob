@@ -14,7 +14,7 @@ db = client.jungleBob
 SECRET_KEY = "jungleBob"
 
 # Port 번호
-PORT = 5001
+PORT = 5000
 
 # Global 변수
 global userData

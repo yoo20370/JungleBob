@@ -1,11 +1,138 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta charset="utf-8">
+    <title>지도 생성하기</title>
+
 </head>
+
 <body>
-    
+    <!-- 지도를 표시할 div 입니다 -->
+    <div id="map" style="width:800px;height:800px;"></div>
+
+    <script type="text/javascript"
+        src="//dapi.kakao.com/v2/maps/sdk.js?appkey=27ab75ac571cd85f784aad676532ed54"></script>
+    <script>
+        // 식당 데이터 
+        var locations = []
+        var location1 = {
+            name: 'E스퀘어',
+            lat: 37.30054972960764,
+            lng: 127.03713620700984,
+            ol_lat: 37.30099348825075,
+            ol_lng: 127.03714206474328
+        }
+        locations.push(location1)
+        var location2 = {
+            name: '감성코어',
+            lat: 37.30116050021104,
+            lng: 127.03610728751869,
+            ol_lat: 37.30162452443163,
+            ol_lng: 127.03613852712539
+        }
+        locations.push(location2)
+        var location3 = {
+            name: '경슐랭',
+            lat: 37.30308880076069,
+            lng: 127.0358346837344,
+            ol_lat: 37.30353481016318,
+            ol_lng: 127.03584617483602
+        }
+        locations.push(location3)
+        var location4 = {
+            name: '기숙사 식당',
+            lat: 37.297506032225876,
+            lng: 127.0385304343192,
+            ol_lat: 37.29798358632856,
+            ol_lng: 127.03851657960135
+        }
+        locations.push(location4)
+
+        // 식당 위치에 마커 만드는 함수 
+        function makeMarker(list) {
+            for (var i = 0; i < list.length; i++) {
+                var markerPosition = new kakao.maps.LatLng(list[i].lat, list[i].lng);
+                console.log(list[i].lat, list[i].lng)
+                // 마커를 생성합니다
+                var marker = new kakao.maps.Marker({
+                    position: markerPosition
+                });
+
+                // 마커가 지도 위에 표시되도록 설정합니다
+                marker.setMap(map);
+
+                var content = `<div class ="label" style="background-color:white; border-radius:10px; width:80px; height:20px; text-align:center;" ><span class="left"></span><span class="center">${list[i].name}</span><span class="right"></span></div>`
+
+                // 커스텀 오버레이가 표시될 위치입니다 
+                var position = new kakao.maps.LatLng(list[i].ol_lat, list[i].ol_lng);
+
+                // 커스텀 오버레이를 생성합니다
+                var customOverlay = new kakao.maps.CustomOverlay({
+                    position: position,
+                    content: content
+                });
+
+                // 커스텀 오버레이를 지도에 표시합니다
+                customOverlay.setMap(map);
+            }
+        }
+
+        var mapContainer = document.getElementById('map');
+        var mapOption = {
+            // center: new kakao.maps.LatLng(37.19357, 127.0227), // 지도 중심 좌표 (서울)
+            center: new kakao.maps.LatLng(37.300696432886156, 127.03621703642439), // 지도 중심 좌표 (서울)
+            level: 3 // 지도 확대 레벨
+        };
+
+        // 지도 생성
+        var map = new kakao.maps.Map(mapContainer, mapOption);
+
+        // // 현재 위치로 지도 자동으로 이동시켜 준다.
+        // // 시작
+        // if (navigator.geolocation) {
+
+        //     // GeoLocation을 이용해서 접속 위치를 얻어옵니다
+        //     navigator.geolocation.getCurrentPosition(function (position) {
+
+        //         var lat = position.coords.latitude, // 위도
+        //             lon = position.coords.longitude; // 경도
+
+        //         var moveLocation = new kakao.maps.LatLng(lat, lon);
+
+        //         map.setCenter(moveLocation);
+        //     });
+
+        // } else { // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
+
+        //     var locPosition = new kakao.maps.LatLng(37.19357, 127.0227),
+        //         message = 'geolocation을 사용할수 없어요..'
+        //     displayMarker(locPosition, message);
+        // }
+
+        makeMarker(locations)
+
+        var imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png', // 마커이미지의 주소입니다    
+            imageSize = new kakao.maps.Size(64, 69), // 마커이미지의 크기입니다
+            imageOption = { offset: new kakao.maps.Point(27, 69) }; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+
+        // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+        var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
+            markerPosition = new kakao.maps.LatLng(37.30013860044147, 127.0334647006359); // 마커가 표시될 위치입니다
+
+        // 마커를 생성합니다
+        var marker = new kakao.maps.Marker({
+            position: markerPosition,
+            image: markerImage // 마커이미지 설정 
+        });
+
+        // 마커가 지도 위에 표시되도록 설정합니다
+        marker.setMap(map); 
+    </script>
 </body>
+
 </html>
+
+# 지도
+# 라디오 버튼으로 변경
+# 토큰
