@@ -13,6 +13,12 @@ db = client.jungleBob
 # jwt를 위한 비밀키
 SECRET_KEY = "jungleBob"
 
+# Port 번호
+PORT = 5001
+
+# Global 변수
+global userData
+
 # 메인 페이지
 from datetime import datetime
 
@@ -54,8 +60,11 @@ def today() :
     # 토큰 여부 확인
     result = tokenCheck()
     if result == False :
-        return redirect('http://localhost:5000/login')
+        return redirect('http://localhost:' + str(PORT) + '/login')
     print(result)
+
+
+    ######### 금일 메뉴 데이터
 
     # 시스템 날짜 가져와 년-월-일 출력
     # 이후 날짜 비교를 위해 date 변수 그대로 사용
@@ -86,10 +95,53 @@ def today() :
     # E-스퀘어 메뉴
     esq_menu = "라면, 김밥, 덮밥, 국수, 돈까스, 아이스크림"
 
+
+    ######### 이름판 데이터 
+    
+    # 경기드림타워 이름판
+    ## 점심
+    dtpeople = db.log.find({"place": "경기드림타워", "lunch": True, "date": date})
+    dt_lunch_list = []
+    for p in dtpeople:
+        dt_lunch_list.append(p['name'])
+    ## 저녁
+    dtpeople = db.log.find({"place": "경기드림타워", "lunch": False, "date": date})
+    dt_dinner_list = []
+    for p in dtpeople:
+        dt_dinner_list.append(p['name'])
+    
+    # 경슐랭 이름판
+    ## 점심
+    kclpeople = db.log.find({"place": "경슐랭", "lunch": True, "date": date})
+    kcl_lunch_list = []
+    for p in kclpeople:
+        kcl_lunch_list.append(p['name'])
+    ## 저녁
+    kclpeople = db.log.find({"place": "경슐랭", "lunch": False, "date": date})
+    kcl_dinner_list = []
+    for p in kclpeople:
+        kcl_dinner_list.append(p['name'])
+
+    # 이스퀘어 이름판
+    ## 점심
+    esqpeople = db.log.find({"place": "이스퀘어", "lunch": True, "date": date})
+    esq_lunch_list = []
+    for p in esqpeople:
+        esq_lunch_list.append(p['name'])
+    ## 저녁
+    esqpeople = db.log.find({"place": "이스퀘어", "lunch": False, "date": date})
+    esq_dinner_list = []
+    for p in esqpeople:
+        esq_dinner_list.append(p['name'])
+
     return render_template('today.html', 
                            template_date = daydate,
                            template_dt_lunch_menu = dt_l_menu, template_dt_dinner_menu = dt_d_menu,
-                           template_kcl_menu = kcl_menu, template_esq_menu = esq_menu)
+                           template_kcl_menu = kcl_menu, template_esq_menu = esq_menu,
+                           template_dt_lunch_people = dt_lunch_list, template_dt_dinner_people = dt_dinner_list, 
+                           template_kcl_lunch_people = kcl_lunch_list, template_kcl_dinner_people = kcl_dinner_list, 
+                           template_esq_lunch_people = esq_lunch_list, template_esq_dinner_people = esq_dinner_list,
+                           template_userName = userData['name'])
 
 
 #################################### 회원가입 
@@ -144,6 +196,8 @@ def loginPost() :
     # 2. 토큰이 없다면 로그인을 시도하는 사람이므로 로그인 ID, PW를 확인 후 토큰을 발행한다.
     userId = request.form['userId'].strip()
     userPw = request.form['userPw'].strip()
+
+    global userData
     
     userData = db.users.find_one({"id":userId},{"_id":False})
 
@@ -172,7 +226,13 @@ def loginPost() :
 @app.route("/api/selectedMenu", methods=['GET'])
 def selectedMenu() :
     place = request.args.get('place_give')
-    result = db.logs.insert_one({'place': place})
+    lunch = request.args.get('lunch_give')
+    date = getDate()
+
+    result = db.logs.insert_one({'name': userData['name'],
+                                 'lunch': lunch,
+                                 'place': place,
+                                 'date': date})
 
     if result.acknowledged:
         return jsonify({'result': 'success'})
@@ -250,5 +310,3 @@ def mypage() :
 
 if __name__ == "__main__" :
     app.run("0.0.0.0", port=5000, debug=True)
-
-# datetime.utcfromtimestamp(unix_timestamp).strftime('%Y/%m/%d')
