@@ -37,7 +37,7 @@ header .logo img {
 header .userName {
   position: absolute;
   right: 0;
-  top:0;
+  top: 0;
   margin: auto;
   bottom: 0;
 
@@ -51,16 +51,16 @@ header .userName {
   justify-content: center;
   align-items: center;
 
-  background-color: #D9D9D9;
+  background-color: #d9d9d9;
   color: #fff;
   font-size: 26px;
 }
 header .date {
-    width: 100%;
-    text-align: center;
-    margin: auto;
-    position: absolute;
-    bottom: 0;
+  width: 100%;
+  text-align: center;
+  margin: auto;
+  position: absolute;
+  bottom: 0;
 }
 header .date h1 {
   font-size: 20px;
@@ -79,8 +79,7 @@ header .date h1 {
   display: block;
   margin: auto;
 }
-.lunchOrDinner .lunch
- {
+.lunchOrDinner .lunch {
   margin-right: 15px;
 }
 .lunchOrDinner .dinner {
@@ -94,7 +93,7 @@ header .date h1 {
 }
 
 /* today 카드 css */
-.card{
+.card {
   margin-bottom: 40px;
 }
 .card .card-header {
@@ -114,14 +113,14 @@ header .date h1 {
 .container .card .card-flex {
   display: flex;
 }
-.container .card .card-flex figure{
+.container .card .card-flex figure {
   border-radius: 20px;
   overflow: hidden;
   margin-top: 24px;
   width: 128px;
   height: 128px;
 }
-.container .card .card-flex figure img{
+.container .card .card-flex figure img {
   display: block;
   width: 128px;
   height: 128px;
@@ -156,4 +155,32 @@ header .date h1 {
 .card-content {
   min-height: 253.45px;
   min-width: 400px;
+}
+
+/* lunch or dinner */
+.lunchOrDinner {
+  display: flex;
+  justify-content: center;
+  margin-top: 70px;
+  position: relative;
+}
+.lunchOrDinner img {
+  display: block;
+  margin: auto;
+  position: absolute;
+}
+.lunchOrDinner img.checked {
+  z-index: 3;
+}
+.lunchOrDinner .img-box {
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lunchOrDinner .lunch {
+  margin-right: 15px;
+}
+.lunchOrDinner .dinner {
+  margin-left: 15px;
 }
