@@ -33,6 +33,11 @@ from datetime import datetime
 
 import time
 
+# 인덱스화면에서 로그인화면으로
+@app.route("/", methods=['GET'])
+def toLogin() : 
+    return redirect('http://' + IP + ":" + str(PORT) + '/login')
+
 def tokenCheck() :
     accessToken = request.cookies.get('access_token')
     
@@ -231,7 +236,7 @@ def loginPost() :
     
     payload = {
         # 토큰 유효 시간 1시간 -  Unix 타임 스탬프 사용
-        'time': int(time.time() * 1000) + 60 * 1000, 
+        'time': int(time.time() * 1000) + 60 * 3 * 1000, 
         'id':userData['id'],
         'name':userData['name']
     }
@@ -240,7 +245,7 @@ def loginPost() :
 
     # 토큰을 발행해서 클라이언트 쿠키에 저장 
     reps = make_response()
-    reps.set_cookie('access_token', token)
+    reps.set_cookie('access_token', token.decode('utf-8'))
     return reps
 
 #################################### 유저 식사 저장
@@ -278,7 +283,8 @@ def selectedMenu() :
         return jsonify({'result': 'success'})
     else:
         return jsonify({'result': 'fail'})
-#####################################
+
+    #####################################
     
 @app.route("/mypage", methods=['GET'])
 def mypage() :
@@ -299,38 +305,46 @@ def mypage() :
     lunch = db.logs.find_one({'name':name,'date':date,'lunch':True})
     dinner = db.logs.find_one({'name':name,'date':date, 'lunch':False})
 
-    lunch_place = lunch['place']
-    dinner_place = dinner['place']
+    if lunch is None and dinner is None:
+        lunch_menu = "어제 먹은 점심이 없습니다."
+        dinner_menu = "어제 먹은 저녁이 없습니다."
+    elif lunch is None:
+        lunch_menu = "어제 먹은 점심이 없습니다."
+    elif dinner is None:
+        dinner_menu = "어제 먹은 저녁이 없습니다."
+    else:
+        lunch_place = lunch['place']
+        dinner_place = dinner['place']
 
-    if lunch_place == '경기드림타워' :
-        lunch_menu_rcd = db.menus.find_one({'place': lunch_place, 'date': date, 'lunch': True})
-        lunch_menu = lunch_menu_rcd['menu']
-        lunch_menu = lunch_menu.replace('\r\n', ', ')
-        lunch_place = lunch_menu_rcd['place']
+        if lunch_place == '경기드림타워' :
+            lunch_menu_rcd = db.menus.find_one({'place': lunch_place, 'date': date, 'lunch': True})
+            lunch_menu = lunch_menu_rcd['menu']
+            lunch_menu = lunch_menu.replace('\r\n', ', ')
+            lunch_place = lunch_menu_rcd['place']
 
-    if dinner_place == '경기드림타워' :
-        dinner_menu_rcd = db.menus.find_one({'place': dinner_place, 'date': date, 'lunch': False})
-        dinner_menu = lunch_menu_rcd['menu']
-        dinner_menu = dinner_menu.replace('\r\n', ', ')
-        dinner_place = dinner_menu_rcd['place']
- 
-    if lunch != None :
-        if lunch['place'] == '경슐랭' :
-            lunch_menu =  "돈가스, 김밥, 덮밥, 한식, 햄버거, 타코"
-            lunch_place = '경슐랭'
-        elif lunch['place'] == 'E스퀘어' :
-            lunch_menu = "라면, 김밥, 덮밥, 국수, 돈까스, 아이스크림"
-            lunch_place = 'E스퀘어'
-        else :
-            pass
+        if dinner_place == '경기드림타워' :
+            dinner_menu_rcd = db.menus.find_one({'place': dinner_place, 'date': date, 'lunch': False})
+            dinner_menu = lunch_menu_rcd['menu']
+            dinner_menu = dinner_menu.replace('\r\n', ', ')
+            dinner_place = dinner_menu_rcd['place']
     
-    if dinner != None :
-        if dinner['place'] == '경슐랭' :
-            dinner_menu =  "돈가스, 김밥, 덮밥, 한식, 햄버거, 타코"
-        elif dinner['place'] == 'E스퀘어' :
-            dinner_menu = "라면, 김밥, 덮밥, 국수, 돈까스, 아이스크림"
-        else : 
-            pass
+        if lunch != None :
+            if lunch['place'] == '경슐랭' :
+                lunch_menu =  "돈가스, 김밥, 덮밥, 한식, 햄버거, 타코"
+                lunch_place = '경슐랭'
+            elif lunch['place'] == 'E스퀘어' :
+                lunch_menu = "라면, 김밥, 덮밥, 국수, 돈까스, 아이스크림"
+                lunch_place = 'E스퀘어'
+            else :
+                pass
+        
+        if dinner != None :
+            if dinner['place'] == '경슐랭' :
+                dinner_menu =  "돈가스, 김밥, 덮밥, 한식, 햄버거, 타코"
+            elif dinner['place'] == 'E스퀘어' :
+                dinner_menu = "라면, 김밥, 덮밥, 국수, 돈까스, 아이스크림"
+            else : 
+                pass
 
     day = datetime.today().weekday() ## 요일
     if day == 0: date += "(월)"
