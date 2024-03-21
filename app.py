@@ -236,7 +236,7 @@ def loginPost() :
     
     payload = {
         # 토큰 유효 시간 1시간 -  Unix 타임 스탬프 사용
-        'time': int(time.time() * 1000) + 60 * 3 * 1000, 
+        'time': int(time.time() * 1000) + 60 * 10 * 1000, 
         'id':userData['id'],
         'name':userData['name']
     }
@@ -258,18 +258,18 @@ def selectedMenu() :
     name = userData['name']
 
     if lunch == 'true':
-        logs_lunch_user = db.logs.find_one({'name': name, 'lunch': 'true'})
+        logs_lunch_user = db.logs.find_one({'name': name, 'lunch': 'true', 'date':date})
 
         if logs_lunch_user != None and logs_lunch_user['name'] == name:
-            db.logs.delete_one({'name': name, 'lunch': 'true'})
+            db.logs.delete_one({'name': name, 'lunch': 'true', 'date':date})
             print('점심 유저 데이터 삭제 성공')
         else:
             print('점심 유저 데이터 삭제 실패')
     else:
-        logs_dinner_user = db.logs.find_one({'name': name, 'lunch': 'false'})
+        logs_dinner_user = db.logs.find_one({'name': name, 'lunch': 'false', 'date':date})
 
         if logs_dinner_user != None and logs_dinner_user['name'] == name:
-            db.logs.delete_one({'name': name, 'lunch': 'false'})
+            db.logs.delete_one({'name': name, 'lunch': 'false', 'date':date})
             print('점심 유저 데이터 삭제 성공')
         else:
             print('점심 유저 데이터 삭제 실패')
@@ -302,8 +302,8 @@ def mypage() :
     name = result['name']
 
     
-    lunch = db.logs.find_one({'name':name,'date':date,'lunch':True})
-    dinner = db.logs.find_one({'name':name,'date':date, 'lunch':False})
+    lunch = db.logs.find_one({'name':name,'date':date,'lunch':"true"})
+    dinner = db.logs.find_one({'name':name,'date':date, 'lunch':"false"})
 
     if lunch is None and dinner is None:
         lunch_menu = "어제 먹은 점심이 없습니다."
@@ -316,44 +316,46 @@ def mypage() :
         lunch_place = lunch['place']
         dinner_place = dinner['place']
 
-        if lunch_place == '경기드림타워' :
-            lunch_menu_rcd = db.menus.find_one({'place': lunch_place, 'date': date, 'lunch': True})
-            lunch_menu = lunch_menu_rcd['menu']
-            lunch_menu = lunch_menu.replace('\r\n', ', ')
-            lunch_place = lunch_menu_rcd['place']
+        if lunch['place'] == '경기드림타워' :
+            lunch_menu_rcd = db.menus.find_one({'place': '경기드림타워', 'date': date, 'lunch': True})
+            if lunch_menu_rcd is not None:
+                lunch_menu = lunch_menu_rcd['menu']
+                lunch_menu = lunch_menu.replace('\r\n', ', ')
+                lunch_place = lunch_menu_rcd['place']
 
-        if dinner_place == '경기드림타워' :
-            dinner_menu_rcd = db.menus.find_one({'place': dinner_place, 'date': date, 'lunch': False})
-            dinner_menu = lunch_menu_rcd['menu']
-            dinner_menu = dinner_menu.replace('\r\n', ', ')
-            dinner_place = dinner_menu_rcd['place']
+        if dinner['place'] == '경기드림타워' :
+            dinner_menu_rcd = db.menus.find_one({'place': '경기드림타워', 'date': date, 'lunch': False})
+            if dinner_menu_rcd is not None:
+                dinner_menu = dinner_menu_rcd['menu']
+                dinner_menu = dinner_menu.replace('\r\n', ', ')
+                dinner_place = dinner_menu_rcd['place']
     
         if lunch != None :
             if lunch['place'] == '경슐랭' :
                 lunch_menu =  "돈가스, 김밥, 덮밥, 한식, 햄버거, 타코"
                 lunch_place = '경슐랭'
-            elif lunch['place'] == 'E스퀘어' :
+            elif lunch['place'] == '이스퀘어' :
                 lunch_menu = "라면, 김밥, 덮밥, 국수, 돈까스, 아이스크림"
-                lunch_place = 'E스퀘어'
+                lunch_place = '이스퀘어'
             else :
                 pass
         
         if dinner != None :
             if dinner['place'] == '경슐랭' :
                 dinner_menu =  "돈가스, 김밥, 덮밥, 한식, 햄버거, 타코"
-            elif dinner['place'] == 'E스퀘어' :
+            elif dinner['place'] == '이스퀘어' :
                 dinner_menu = "라면, 김밥, 덮밥, 국수, 돈까스, 아이스크림"
             else : 
                 pass
 
     day = datetime.today().weekday() ## 요일
-    if day == 0: date += "(월)"
-    elif day == 1: date += "(화)"
-    elif day == 2: date += "(수)"
-    elif day == 3: date += "(목)"
-    elif day == 4: date += "(금)"
-    elif day == 5: date += "(토)"
-    elif day == 6: date += "(일)"
+    if day == 0: date += "(일)"
+    elif day == 1: date += "(월)"
+    elif day == 2: date += "(화)"
+    elif day == 3: date += "(수)"
+    elif day == 4: date += "(목)"
+    elif day == 5: date += "(금)"
+    elif day == 6: date += "(토)"
 
     print(day)
     return render_template('mypage.html', payload = result,
