@@ -22,7 +22,8 @@ from var import DBPORT
 
 # pymongo DB 연결 pip in
 from pymongo import MongoClient 
-client = MongoClient('mongodb://' + ID + ':' + PW + '@' + IP, DBPORT)
+# client = MongoClient('mongodb://' + ID + ':' + PW + '@' + IP, DBPORT)
+client = MongoClient('localhost', 27017)
 db = client.jungleBob
 
 # Global 변수
@@ -96,12 +97,19 @@ def today() :
     ## 기숙사 식당 메뉴 가져오기
     ### 점심
     dt_l_record = db.menus.find_one({"date": date, "place": "경기드림타워", "lunch": True})
-    dt_l_menu = dt_l_record['menu']
-    dt_l_menu = dt_l_menu.replace('\r\n', ', ')
+    try:
+        dt_l_menu = dt_l_record['menu']
+        dt_l_menu = dt_l_menu.replace('\r\n', ', ')
+    except:
+        print("No Menu")
+    
     ### 저녁
     dt_d_record = db.menus.find_one({"date": date, "place": "경기드림타워", "lunch": False})
-    dt_d_menu = dt_d_record['menu']
-    dt_d_menu = dt_d_menu.replace('\r\n', ', ')
+    try:
+        dt_d_menu = dt_d_record['menu']
+        dt_d_menu = dt_d_menu.replace('\r\n', ', ')
+    except:
+        print("No Menu")
 
     # 경슐랭 메뉴 
     kcl_menu = "돈가스, 김밥, 덮밥, 한식, 햄버거, 타코"
@@ -148,11 +156,12 @@ def today() :
     for p in esqpeople:
         esq_dinner_list.append(p['name'])
 
-    name = userData['name']
+    # name = userData['name']
+    name = result['name']
 
     return render_template('today.html', 
                            template_date = daydate,
-                           template_dt_lunch_menu = dt_l_menu, template_dt_dinner_menu = dt_d_menu,
+                        #    template_dt_lunch_menu = dt_l_menu, template_dt_dinner_menu = dt_d_menu,
                            template_kcl_menu = kcl_menu, template_esq_menu = esq_menu,
                            template_dt_lunch_people = dt_lunch_list, template_dt_dinner_people = dt_dinner_list, 
                            template_kcl_lunch_people = kcl_lunch_list, template_kcl_dinner_people = kcl_dinner_list, 
@@ -200,7 +209,7 @@ def loginGet() :
 # 로그인 시도 
 @app.route("/login", methods=['POST'])
 def loginPost() :
-    
+    print("Try login")
     userId = request.form['userId'].strip()
     userPw = request.form['userPw'].strip()
 
@@ -227,7 +236,7 @@ def loginPost() :
     
     userData = db.users.find_one({"id":userId},{"_id":False})
 
-    print(userData)
+    print('ㅎㅇ', userData)
     if userData == None :
         return jsonify({"msg":'Login Fail'})
     # 로그인 정보 없음 
@@ -245,7 +254,7 @@ def loginPost() :
 
     # 토큰을 발행해서 클라이언트 쿠키에 저장 
     reps = make_response()
-    reps.set_cookie('access_token', token.decode('utf-8'))
+    reps.set_cookie('access_token', token)
     return reps
 
 #################################### 유저 식사 저장
@@ -255,7 +264,12 @@ def selectedMenu() :
     lunch = request.args.get('lunch_give')
     date = getDate()
 
-    name = userData['name']
+    # name = userData['name'] # 이렇게 하면 이름이 마지막 로그인 한 사람으로 바뀜
+    result = tokenCheck()
+    if result == False :
+        return redirect('http://' + IP + ":" + str(PORT) + '/login')
+    
+    name = result['name']
 
     if lunch == 'true':
         logs_lunch_user = db.logs.find_one({'name': name, 'lunch': 'true', 'date':date})
@@ -286,6 +300,16 @@ def selectedMenu() :
 
     #####################################
     
+### 점심 저녁 체크 여부
+@app.route("/submit", methods=['GET'])
+def checkLD():
+    result = tokenCheck()
+    if result == False :
+        return redirect('http://' + IP + ":" + str(PORT) + '/login')
+    
+    isLD = request.form['btnradio']
+    print(isLD)
+
 @app.route("/mypage", methods=['GET'])
 def mypage() :
     result = tokenCheck()
